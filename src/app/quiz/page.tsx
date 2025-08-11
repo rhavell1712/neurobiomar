@@ -1,15 +1,10 @@
 "use client";
 
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-/* 
-  Fundo animado com partículas flutuantes (bolinhas)
-  - Fundo azul escuro com gradiente
-  - Partículas com animação vertical contínua
-  - Fica FIXO no fundo da página, atrás de todo conteúdo
-*/
+/* Fundo animado */
 function ParticleBackground() {
   const [particles, setParticles] = useState<
     { size: number; top: number; left: number; duration: string; delay: string }[]
@@ -50,6 +45,14 @@ function ParticleBackground() {
           50% { transform: translateY(-18px) } 
           100% { transform: translateY(0) } 
         }
+        /* Animação para piscar mais rápido */
+        .blink-fast {
+          animation: blink-fast 0.3s ease-in-out 3;
+        }
+        @keyframes blink-fast {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.3; }
+        }
       `}</style>
       <div className="particle-container" aria-hidden="true">
         {particles.map((p, i) => (
@@ -71,12 +74,7 @@ function ParticleBackground() {
   );
 }
 
-/* 
-  Header fixo no topo
-  - Fundo azul escuro, borda inferior ciano
-  - Logo redonda + título com cores personalizadas
-  - Link para voltar à página de jogos, visível em md+
-*/
+/* Header fixo */
 function Header() {
   return (
     <header
@@ -97,10 +95,11 @@ function Header() {
           <span className="text-[#00f5d4]">BIOMAR</span>
         </h1>
         <nav className="hidden md:block" aria-label="Menu principal">
-          <Link href="/jogos" className="text-cyan-400 font-semibold hover:underline focus:outline-none focus:ring-2 focus:ring-cyan-400 rounded">
-              
+          <Link
+            href="/jogos"
+            className="text-cyan-400 font-semibold hover:underline focus:outline-none focus:ring-2 focus:ring-cyan-400 rounded"
+          >
             Voltar aos Jogos
-
           </Link>
         </nav>
       </div>
@@ -119,9 +118,6 @@ type Question = {
   sourceUrl: string;
 };
 
-/* 
-  Array com 3 perguntas para testes
-*/
 const questions: Question[] = [
   {
     id: 1,
@@ -168,54 +164,42 @@ const questions: Question[] = [
   },
 ];
 
-/* 
-  Barra de progresso que mostra a posição atual no quiz
-  - currentIndex: índice atual (zero-based)
-  - total: total de perguntas
-*/
+/* Barra de progresso */
 function ProgressBar({ currentIndex, total }: { currentIndex: number; total: number }) {
   const progressPercent = useMemo(() => ((currentIndex + 1) / total) * 100, [currentIndex, total]);
   return (
     <div className="mb-4" aria-label={`Pergunta ${currentIndex + 1} de ${total}`}>
-      {/* Barra cinza de fundo */}
       <div className="h-3 w-full bg-gray-700 rounded-full overflow-hidden">
-        {/* Barra ciano representando progresso */}
         <div
           className="h-full bg-cyan-400 transition-all duration-500 ease-in-out"
           style={{ width: `${progressPercent}%` }}
         />
       </div>
-      {/* Texto do progresso */}
       <p className="text-cyan-300 mt-1 text-sm font-medium">{`Pergunta ${currentIndex + 1} de ${total}`}</p>
     </div>
   );
 }
 
-/* 
-  Card da pergunta e alternativas
-  - Fundo azul escuro translúcido para combinar com o site e destacar texto branco
-  - Borda e sombra verde água para dar destaque
-  - Imagem da pergunta com texto sobreposto em branco e sombra para melhor leitura
-  - Botões de alternativas estilizados com foco e cores conforme feedback
-*/
+/* Card da pergunta e alternativas com animação piscando */
 function QuizCard({
   question,
   selected,
   feedbackVisible,
   onSelectChoice,
+  answerIndex,
 }: {
   question: Question;
   selected: number | null;
   feedbackVisible: boolean;
   onSelectChoice: (choiceIndex: number) => void;
+  answerIndex: number;
 }) {
   return (
     <article
       className="bg-[#0a1a2fcc] backdrop-blur-md rounded-xl shadow-lg
-                 border-2 border-teal-400 shadow-teal-400/50"
+                 border-2 border-teal-400 shadow-teal-400/50 w-full max-w-3xl"
       aria-live="polite"
     >
-      {/* Imagem da pergunta */}
       <div className="relative w-full h-56">
         <Image
           src={question.image}
@@ -223,30 +207,31 @@ function QuizCard({
           fill
           className="object-cover rounded-t-xl"
         />
-        {/* Gradiente para escurecer a parte inferior da imagem */}
         <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-black/80 to-transparent rounded-b-xl" />
-        {/* Texto da pergunta */}
         <h2 className="absolute bottom-4 left-4 right-4 text-white text-xl font-bold drop-shadow-lg">
           {question.question}
         </h2>
       </div>
 
-      {/* Alternativas */}
       <div className="p-6 grid gap-4">
         {question.choices.map((choice, i) => {
           const isCorrect = i === question.answerIndex;
           const isSelected = selected === i;
           const base =
-            "p-3 rounded-lg text-left border transition focus:outline-none focus:ring-2 font-medium";
+            "p-3 rounded-lg text-left border transition focus:outline-none focus:ring-2 font-medium transform";
 
-          // Estilos para alternativas, variando se feedback está visível e se alternativa é correta/selecionada
+          // Classes para piscada rápida da alternativa correta ou errada
+          const blinkClass =
+            feedbackVisible && (isCorrect || isSelected) ? "blink-fast" : "";
+
+          // Classes para feedback visual
           const cls = feedbackVisible
             ? isCorrect
-              ? `${base} border-teal-400 bg-teal-600 bg-opacity-70 text-white focus:ring-teal-400`
+              ? `${base} border-teal-400 bg-teal-600 bg-opacity-70 text-white focus:ring-teal-400 ${blinkClass}`
               : isSelected
-              ? `${base} border-red-500 bg-red-600 bg-opacity-70 text-white focus:ring-red-400`
+              ? `${base} border-red-500 bg-red-600 bg-opacity-70 text-white focus:ring-red-400 ${blinkClass}`
               : `${base} border-gray-600 bg-white/10 text-white`
-            : `${base} border-teal-400 bg-white/10 text-white hover:bg-teal-500 hover:bg-opacity-70 hover:border-teal-400 focus:ring-teal-400`;
+            : `${base} border-teal-400 bg-white/10 text-white hover:bg-teal-500 hover:bg-opacity-70 hover:border-teal-400 focus:ring-teal-400 hover:scale-105`;
 
           return (
             <button
@@ -256,6 +241,7 @@ function QuizCard({
               className={cls}
               aria-pressed={isSelected}
               aria-disabled={feedbackVisible}
+              type="button"
             >
               {choice}
             </button>
@@ -266,13 +252,7 @@ function QuizCard({
   );
 }
 
-/* 
-  Feedback após responder pergunta
-  - Mostra se acertou ou errou
-  - Explicação da resposta correta
-  - Fonte da informação
-  - Botão para próxima pergunta ou ver resultado final
-*/
+/* Feedback após responder pergunta */
 function Feedback({
   correct,
   explanation,
@@ -290,10 +270,11 @@ function Feedback({
 }) {
   return (
     <section
-      className="p-4 bg-white/10 border-t border-teal-400 mt-4 rounded-b-lg text-white"
+      className="p-6 bg-white/10 border-t border-teal-400 mt-4 rounded-b-lg text-white max-w-3xl mx-auto"
       aria-live="assertive"
       role="region"
       aria-label="Feedback da resposta"
+      style={{ minHeight: "140px" }}
     >
       <p className="font-semibold text-lg">{correct ? "Correto! 😊" : "Resposta incorreta."}</p>
       <p className="mt-2">{explanation}</p>
@@ -307,7 +288,8 @@ function Feedback({
       </Link>
       <button
         onClick={onNext}
-        className="mt-4 bg-teal-500 px-4 py-2 rounded-md font-semibold hover:bg-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-400"
+        className="mt-4 bg-teal-500 px-4 py-2 rounded-md font-semibold hover:bg-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-400 transition"
+        type="button"
       >
         {isLast ? "Ver resultado" : "Próxima"}
       </button>
@@ -315,22 +297,56 @@ function Feedback({
   );
 }
 
-/* 
-  Componente principal da página
-  - Controla o estado do quiz: carregando, pergunta atual, seleção, feedback e fim
-  - Exibe barra de progresso, card da pergunta, feedback e tela final
-*/
+/* Feedback final centralizado */
+function FinalFeedback({ score, total, onRestart }: { score: number; total: number; onRestart: () => void }) {
+  const pct = score / total;
+  let message = "Continue tentando! Você chega lá! 💪";
+  if (pct === 1) message = "Perfeito! 🏆";
+  else if (pct >= 0.7) message = "Excelente! ⭐";
+  else if (pct >= 0.5) message = "Bom trabalho! 👍";
+
+  return (
+    <main className="flex flex-col items-center justify-center min-h-[calc(100vh-80px)] px-4 text-center max-w-4xl mx-auto">
+      <h2 className="text-5xl text-cyan-300 font-bold mb-6">Quiz concluído!</h2>
+      <p className="text-4xl text-white mb-4">
+        Você acertou {score} de {total}
+      </p>
+      <p className="text-3xl text-cyan-200 mb-8">{message}</p>
+      <div className="flex flex-col sm:flex-row gap-4 w-full max-w-xs justify-center">
+        <button
+          onClick={onRestart}
+          className="bg-cyan-500 px-6 py-3 rounded-md font-semibold hover:bg-cyan-600 focus:outline-none focus:ring-2 focus:ring-cyan-400 transition"
+          type="button"
+        >
+          Jogar de novo
+        </button>
+        <Link
+          href="/jogos"
+          className="px-6 py-3 rounded-md border border-cyan-400 hover:bg-cyan-500/20 focus:outline-none focus:ring-2 focus:ring-cyan-400 transition"
+        >
+          Voltar aos jogos
+        </Link>
+      </div>
+    </main>
+  );
+}
+
+/* Componente principal */
 export default function QuizPage() {
   const [loading, setLoading] = useState(true);
   const [progressLoad, setProgressLoad] = useState(0);
 
-  const [index, setIndex] = useState(0); // índice da pergunta atual
-  const [selected, setSelected] = useState<number | null>(null); // alternativa selecionada
-  const [feedbackVisible, setFeedbackVisible] = useState(false); // feedback visível
-  const [score, setScore] = useState(0); // acertos
-  const [done, setDone] = useState(false); // quiz finalizado
+  const [index, setIndex] = useState(0);
+  const [selected, setSelected] = useState<number | null>(null);
+  const [feedbackVisible, setFeedbackVisible] = useState(false);
+  const [score, setScore] = useState(0);
+  const [done, setDone] = useState(false);
 
-  // Simula loading inicial com barra de progresso animada
+  // Temporizador 15 segundos por questão
+  const [timeLeft, setTimeLeft] = useState(15);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Loading inicial animado
   useEffect(() => {
     let p = 0;
     const timer = setInterval(() => {
@@ -348,15 +364,53 @@ export default function QuizPage() {
   const isCorrect = selected === currentQuestion.answerIndex;
   const isLast = index + 1 >= questions.length;
 
-  // Função para escolher alternativa
+  // Começa/Reseta o timer para cada questão
+  useEffect(() => {
+    setTimeLeft(15);
+    if (timerRef.current) clearInterval(timerRef.current);
+
+    timerRef.current = setInterval(() => {
+      setTimeLeft((t) => {
+        if (t <= 1) {
+          clearInterval(timerRef.current!);
+          // Se o tempo zerar, muda a questão automaticamente, marca como errada (selected=null)
+          handleTimeout();
+          return 0;
+        }
+        return t - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(timerRef.current!);
+  }, [index]);
+
+  // Ao responder a questão
   const choose = (i: number) => {
     if (feedbackVisible) return;
     setSelected(i);
     if (i === currentQuestion.answerIndex) setScore((s) => s + 1);
     setFeedbackVisible(true);
+    clearInterval(timerRef.current!);
+
+    // Muda a questão automaticamente após 1.2s para permitir a piscada
+    setTimeout(() => {
+      next();
+    }, 1200);
   };
 
-  // Passar para próxima pergunta ou finalizar
+  // Ao zerar o tempo sem responder
+  const handleTimeout = () => {
+    if (feedbackVisible) return; // evita mudar duas vezes
+    setSelected(null);
+    setFeedbackVisible(true);
+
+    // Muda a questão após 1.2s, igual ao choose
+    setTimeout(() => {
+      next();
+    }, 1200);
+  };
+
+  // Próxima pergunta ou finaliza
   const next = () => {
     setFeedbackVisible(false);
     setSelected(null);
@@ -367,7 +421,7 @@ export default function QuizPage() {
     }
   };
 
-  // Reiniciar o quiz
+  // Reinicia o quiz
   const restart = () => {
     setIndex(0);
     setScore(0);
@@ -376,28 +430,19 @@ export default function QuizPage() {
     setDone(false);
   };
 
-  // Mensagem final de acordo com desempenho
-  const finalMessage = useMemo(() => {
-    const pct = score / questions.length;
-    if (pct === 1) return "Perfeito! 🏆";
-    if (pct >= 0.7) return "Excelente! ⭐";
-    if (pct >= 0.5) return "Bom trabalho! 👍";
-    return "Continue tentando! Você chega lá! 💪";
-  }, [score]);
+  // Cálculo para o círculo SVG do timer
+  const circleRadius = 26;
+  const circleCircumference = 2 * Math.PI * circleRadius;
+  const progressCircle = (timeLeft / 15) * circleCircumference;
 
   return (
-    <div className="relative min-h-screen text-white bg-gradient-to-b from-[#050d1c] to-[#0a1a2f]">
-      {/* Fundo das partículas flutuantes */}
+    <div className="relative min-h-screen text-white bg-gradient-to-b from-[#050d1c] to-[#0a1a2f] flex flex-col">
       <ParticleBackground />
-
-      {/* Cabeçalho fixo */}
       <Header />
-      {/* Espaço para o header fixo */}
-      <div className="h-20" />
+      <div className="h-20" /> {/* espaço para header fixo */}
 
-      {/* Se estiver carregando, mostra loading */}
       {loading ? (
-        <div className="flex flex-col items-center justify-center min-h-screen px-4">
+        <div className="flex flex-col items-center justify-center min-h-screen px-4 flex-grow">
           <Image
             src="/neurobiomar.jpg"
             alt="logo"
@@ -406,9 +451,7 @@ export default function QuizPage() {
             width={80}
             height={80}
           />
-          <p className="text-cyan-400 text-lg font-semibold">
-            Carregando Quiz... {progressLoad}%
-          </p>
+          <p className="text-cyan-400 text-lg font-semibold">Carregando Quiz... {progressLoad}%</p>
           <div className="w-full max-w-xs h-2 bg-gray-700 rounded-full overflow-hidden mt-4">
             <div
               className="h-full bg-cyan-400 transition-all"
@@ -417,37 +460,62 @@ export default function QuizPage() {
           </div>
         </div>
       ) : done ? (
-        // Tela final do quiz
-        <main className="max-w-3xl mx-auto p-6 text-center">
-          <h2 className="text-3xl text-cyan-300 font-bold mb-4">Quiz concluído!</h2>
-          <p className="text-2xl text-white mb-3">
-            Você acertou {score} de {questions.length}
-          </p>
-          <p className="text-xl text-cyan-200 mb-6">{finalMessage}</p>
-          <div className="flex justify-center gap-4 flex-wrap">
-            <button
-              onClick={restart}
-              className="bg-cyan-500 px-5 py-2 rounded-md font-semibold hover:bg-cyan-600 focus:outline-none focus:ring-2 focus:ring-cyan-400"
-            >
-              Jogar de novo
-            </button>
-            <Link href="/games"  className="px-5 py-2 rounded-md border border-cyan-400 hover:bg-cyan-500/20 focus:outline-none focus:ring-2 focus:ring-cyan-400">
-              
-                Voltar aos jogos
-             
-            </Link>
-          </div>
-        </main>
+        <FinalFeedback score={score} total={questions.length} onRestart={restart} />
       ) : (
-        // Tela principal com pergunta, alternativas e barra de progresso
-        <main className="max-w-3xl mx-auto p-6" role="main">
+        <main className="flex flex-col items-center justify-start max-w-3xl mx-auto p-4 w-full flex-grow">
           <ProgressBar currentIndex={index} total={questions.length} />
+
+          {/* Temporizador com círculo */}
+          <div className="mb-6 flex items-center justify-center">
+            <svg
+              className="w-16 h-16"
+              viewBox="0 0 60 60"
+              aria-label={`Tempo restante: ${timeLeft} segundos`}
+              role="img"
+            >
+              <circle
+                className="text-gray-700"
+                strokeWidth="5"
+                stroke="currentColor"
+                fill="transparent"
+                r={circleRadius}
+                cx="30"
+                cy="30"
+              />
+              <circle
+                className="text-cyan-400 transition-stroke duration-500 ease-in-out"
+                strokeWidth="5"
+                stroke="currentColor"
+                fill="transparent"
+                r={circleRadius}
+                cx="30"
+                cy="30"
+                strokeDasharray={circleCircumference}
+                strokeDashoffset={circleCircumference - progressCircle}
+                style={{ transform: "rotate(-90deg)", transformOrigin: "50% 50%" }}
+              />
+              <text
+                x="50%"
+                y="50%"
+                dominantBaseline="middle"
+                textAnchor="middle"
+                fontSize="18"
+                fill="#00f5d4"
+                fontWeight="bold"
+              >
+                {timeLeft}s
+              </text>
+            </svg>
+          </div>
+
           <QuizCard
             question={currentQuestion}
             selected={selected}
             feedbackVisible={feedbackVisible}
             onSelectChoice={choose}
+            answerIndex={currentQuestion.answerIndex}
           />
+
           {feedbackVisible && (
             <Feedback
               correct={isCorrect}
