@@ -20,16 +20,17 @@ export default function Peixinho2D() {
 
   const gravity = 0.5;
   const jumpForce = -8;
-  const peixeHeightPx = 40; // Peixe principal menor agora
+  const peixeHeightPx = 40;
   const peixeWidthPx = 50;
+  const areiaHeight = 80;
 
-  const areiaHeight = 80; // altura da areia fixa no fundo
-
+  // Função pular / reiniciar
   function jump() {
     if (!gameOver) setVelocity(jumpForce);
-    if (gameOver) resetGame();
+    else resetGame();
   }
 
+  // Espaço tecla para pular
   useEffect(() => {
     function onKeyDown(e: KeyboardEvent) {
       if (e.code === "Space") {
@@ -41,6 +42,7 @@ export default function Peixinho2D() {
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [gameOver]);
 
+  // Toque na tela para pular (mobile)
   useEffect(() => {
     function onTouchStart(e: TouchEvent) {
       e.preventDefault();
@@ -50,6 +52,7 @@ export default function Peixinho2D() {
     return () => window.removeEventListener("touchstart", onTouchStart);
   }, [gameOver]);
 
+  // Atualiza posição do peixe e dos itens
   useEffect(() => {
     if (gameOver) return;
 
@@ -98,6 +101,7 @@ export default function Peixinho2D() {
     return () => clearInterval(interval);
   }, [velocity, gameOver]);
 
+  // Detecta colisões
   useEffect(() => {
     if (gameOver) return;
 
@@ -134,6 +138,7 @@ export default function Peixinho2D() {
     });
   }, [items, peixeY, gameOver]);
 
+  // Reinicia o jogo
   function resetGame() {
     setItems([]);
     setScore(0);
@@ -176,7 +181,7 @@ export default function Peixinho2D() {
               top: peixeY,
               width: peixeWidthPx,
               height: peixeHeightPx,
-              backgroundColor: "#ff7f50", // coral para contraste
+              backgroundColor: "#ff7f50",
               borderRadius: "50% / 50%",
               boxShadow: "inset 10px 0 15px rgba(255,127,80,0.7)",
               display: "flex",
@@ -187,7 +192,7 @@ export default function Peixinho2D() {
               transition: "top 0.05s linear",
               zIndex: 10,
               userSelect: "none",
-              transform: "scaleX(-1)", // olha pra esquerda
+              transform: "scaleX(-1)",
             }}
             aria-label="Peixe principal"
           >
@@ -235,8 +240,7 @@ export default function Peixinho2D() {
           style={{
             height: areiaHeight,
             width: "100%",
-            background:
-              "linear-gradient(to top, #c2b280 0%, #8b7a4f 100%)",
+            background: "linear-gradient(to top, #c2b280 0%, #8b7a4f 100%)",
             boxShadow: "inset 0 10px 20px #7a6f4a",
             zIndex: 5,
             userSelect: "none",
@@ -325,220 +329,194 @@ export default function Peixinho2D() {
         </div>
       )}
 
-      {/* Estilos gerais */}
+      {/* Animações CSS */}
       <style>{`
-        @keyframes waves {
-          0% { background-position: 0% 50%, 100% 50%; }
-          100% { background-position: 100% 50%, 0% 50%; }
-        }
         @keyframes sway {
           0%, 100% { transform: translateX(0); }
           50% { transform: translateX(5px); }
-        }
-        @keyframes bubbleMove {
-          0% {
-            transform: translateY(0);
-            opacity: 1;
-          }
-          100% {
-            transform: translateY(-150px);
-            opacity: 0;
-          }
-        }
-        @keyframes floatUpDown {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-10px); }
         }
       `}</style>
     </>
   );
 }
 
-// Algas animadas menores e mais variadas
+// Algas animadas
 function Seaweed() {
   return (
-    <>
-      <svg
-        style={{
-          position: "absolute",
-          bottom: 80,
-          left: 0,
-          width: "100%",
-          height: "20vh",
-          pointerEvents: "none",
-          zIndex: 3,
-          userSelect: "none",
-          opacity: 0.8,
-        }}
-        viewBox="0 0 120 40"
-        preserveAspectRatio="none"
-      >
-        {/* Algas mais finas e pequenas com sway animado */}
-        <path
-          fill="#0b3d0b"
-          d="M10 40 Q12 30 10 20 Q12 10 10 0 L11 0 Q13 10 11 20 Q13 30 11 40 Z"
-          style={{ animation: "sway 3s ease-in-out infinite" }}
-          transform="translate(5,0) scale(0.6)"
-        />
-        <path
-          fill="#0a2e0a"
-          d="M20 40 Q22 28 20 18 Q22 8 20 -2 L21 -2 Q23 8 21 18 Q23 28 21 40 Z"
-          style={{ animation: "sway 4s ease-in-out infinite", animationDelay: "1s" }}
-          transform="translate(25,0) scale(0.5)"
-        />
-        <path
-          fill="#0c3a0c"
-          d="M30 40 Q32 30 30 16 Q32 6 30 -4 L31 -4 Q33 6 31 16 Q33 30 31 40 Z"
-          style={{ animation: "sway 3.5s ease-in-out infinite", animationDelay: "0.5s" }}
-          transform="translate(45,0) scale(0.7)"
-        />
-        <path
-          fill="#0a2e0a"
-          d="M40 40 Q42 30 40 20 Q42 10 40 0 L41 0 Q43 10 41 20 Q43 30 41 40 Z"
-          style={{ animation: "sway 3.8s ease-in-out infinite", animationDelay: "1.3s" }}
-          transform="translate(70,0) scale(0.6)"
-        />
-        <path
-          fill="#0b3d0b"
-          d="M50 40 Q52 30 50 20 Q52 10 50 0 L51 0 Q53 10 51 20 Q53 30 51 40 Z"
-          style={{ animation: "sway 4.2s ease-in-out infinite", animationDelay: "0.7s" }}
-          transform="translate(90,0) scale(0.55)"
-        />
-      </svg>
-    </>
+    <svg
+      style={{
+        position: "absolute",
+        bottom: 80,
+        left: 0,
+        width: "100%",
+        height: "20vh",
+        pointerEvents: "none",
+        zIndex: 3,
+        userSelect: "none",
+        opacity: 0.8,
+      }}
+      viewBox="0 0 120 40"
+      preserveAspectRatio="none"
+    >
+      <path
+        fill="#0b3d0b"
+        d="M10 40 Q12 30 10 20 Q12 10 10 0 L11 0 Q13 10 11 20 Q13 30 11 40 Z"
+        style={{ animation: "sway 3s ease-in-out infinite" }}
+        transform="translate(5,0) scale(0.6)"
+      />
+      <path
+        fill="#0a2e0a"
+        d="M20 40 Q22 28 20 18 Q22 8 20 -2 L21 -2 Q23 8 21 18 Q23 28 21 40 Z"
+        style={{ animation: "sway 4s ease-in-out infinite", animationDelay: "1s" }}
+        transform="translate(25,0) scale(0.5)"
+      />
+      <path
+        fill="#0c3a0c"
+        d="M30 40 Q32 30 30 16 Q32 6 30 -4 L31 -4 Q33 6 31 16 Q33 30 31 40 Z"
+        style={{ animation: "sway 3.5s ease-in-out infinite", animationDelay: "0.5s" }}
+        transform="translate(45,0) scale(0.7)"
+      />
+      <path
+        fill="#0a2e0a"
+        d="M40 40 Q42 30 40 20 Q42 10 40 0 L41 0 Q43 10 41 20 Q43 30 41 40 Z"
+        style={{ animation: "sway 3.8s ease-in-out infinite", animationDelay: "1.3s" }}
+        transform="translate(70,0) scale(0.6)"
+      />
+      <path
+        fill="#0b3d0b"
+        d="M50 40 Q52 30 50 20 Q52 10 50 0 L51 0 Q53 10 51 20 Q53 30 51 40 Z"
+        style={{ animation: "sway 4.2s ease-in-out infinite", animationDelay: "0.7s" }}
+        transform="translate(90,0) scale(0.55)"
+      />
+    </svg>
   );
 }
 
-// Pedras no chão do mar
+// Pedras no chão
 function Stones() {
   return (
-    <>
-      <svg
-        style={{
-          position: "absolute",
-          bottom: 0,
-          left: 0,
-          width: "100%",
-          height: "20vh",
-          pointerEvents: "none",
-          zIndex: 4,
-          userSelect: "none",
-          opacity: 0.95,
-        }}
-        viewBox="0 0 100 40"
-        preserveAspectRatio="none"
-      >
-        <defs>
-          {/* Gradiente para a montanha/morro */}
-          <linearGradient id="mountainGradient" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#5C4E3A" />
-            <stop offset="100%" stopColor="#3B2F1B" />
-          </linearGradient>
-        </defs>
+    <svg
+      style={{
+        position: "absolute",
+        bottom: 0,
+        left: 0,
+        width: "100%",
+        height: "20vh",
+        pointerEvents: "none",
+        zIndex: 4,
+        userSelect: "none",
+        opacity: 0.95,
+      }}
+      viewBox="0 0 100 40"
+      preserveAspectRatio="none"
+    >
+      <defs>
+        <linearGradient id="mountainGradient" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#5C4E3A" />
+          <stop offset="100%" stopColor="#3B2F1B" />
+        </linearGradient>
+      </defs>
 
-        {/* Forma ondulada que parece um morro/monte */}
-        <path
-          d="
-            M 0 35
-            Q 10 25, 20 30
-            T 40 30
-            T 60 32
-            T 80 28
-            T 100 35
-            L 100 40
-            L 0 40
-            Z
-          "
-          fill="url(#mountainGradient)"
-          stroke="#4a3e2a"
-          strokeWidth="0.5"
-        />
+      <path
+        d="
+          M 0 35
+          Q 10 25, 20 30
+          T 40 30
+          T 60 32
+          T 80 28
+          T 100 35
+          L 100 40
+          L 0 40
+          Z
+        "
+        fill="url(#mountainGradient)"
+        stroke="#4a3e2a"
+        strokeWidth="0.5"
+      />
 
-        {/* Pequenas pedras (opcionais) no topo da montanha */}
-        <ellipse cx="15" cy="33" rx="3" ry="1.5" fill="#7a6f58" />
-        <ellipse cx="35" cy="32" rx="4" ry="2" fill="#6b5e45" />
-        <ellipse cx="55" cy="34" rx="2.5" ry="1.2" fill="#665544" />
-        <ellipse cx="75" cy="31" rx="3.5" ry="1.5" fill="#5c4e3a" />
-        <ellipse cx="90" cy="33" rx="3" ry="1.5" fill="#7a6f58" />
-      </svg>
-    </>
+      <ellipse cx="15" cy="33" rx="3" ry="1.5" fill="#7a6f58" />
+      <ellipse cx="35" cy="32" rx="4" ry="2" fill="#6b5e45" />
+      <ellipse cx="55" cy="34" rx="2.5" ry="1.2" fill="#665544" />
+      <ellipse cx="75" cy="31" rx="3.5" ry="1.5" fill="#5c4e3a" />
+      <ellipse cx="90" cy="33" rx="3" ry="1.5" fill="#7a6f58" />
+    </svg>
   );
 }
 
-
+// Fundo com animais
 function BackgroundAnimals() {
   return (
-    <>
-      <svg
-        style={{
-          position: "absolute",
-          bottom: 0,
-          left: 0,
-          width: "100%",
-          height: "60vh",
-          pointerEvents: "none",
-          zIndex: 1,
-          userSelect: "none",
-          opacity: 0.3,
-        }}
-        viewBox="0 0 120 60"
-        preserveAspectRatio="xMidYMid meet"
-      >
-        <defs>
-          <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-            <feDropShadow dx="0" dy="0" stdDeviation="1" floodColor="#000" floodOpacity="0.2" />
-          </filter>
-        </defs>
+    <svg
+      style={{
+        position: "absolute",
+        bottom: 0,
+        left: 0,
+        width: "100%",
+        height: "60vh",
+        pointerEvents: "none",
+        zIndex: 1,
+        userSelect: "none",
+        opacity: 0.3,
+      }}
+      viewBox="0 0 120 60"
+      preserveAspectRatio="xMidYMid meet"
+    >
+      <defs>
+        <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+          <feDropShadow
+            dx="0"
+            dy="0"
+            stdDeviation="1"
+            floodColor="#000"
+            floodOpacity="0.2"
+          />
+        </filter>
+      </defs>
 
-        {/* Estrela 1: cor amarela vibrante com contorno */}
-        <path
-          d="M60 10
-             C63 12, 65 15, 68 15
-             C65 16, 62 20, 63 23
-             C60 21, 56 23, 56 20
-             C54 17, 55 14, 58 12
-             C57 10, 59 8, 60 10
-             Z"
-          fill="#FFEB3B"
-          stroke="#E6C200"
-          strokeWidth="1.5"
-          filter="url(#shadow)"
-        />
+      <path
+        d="M60 10
+           C63 12, 65 15, 68 15
+           C65 16, 62 20, 63 23
+           C60 21, 56 23, 56 20
+           C54 17, 55 14, 58 12
+           C57 10, 59 8, 60 10
+           Z"
+        fill="#FFEB3B"
+        stroke="#E6C200"
+        strokeWidth="1.5"
+        filter="url(#shadow)"
+      />
 
-        {/* Estrela 2: rosa vibrante com formato diferente */}
-        <path
-          d="M90 25
-             C92 27, 95 28, 96 30
-             C94 31, 92 34, 91 37
-             C89 33, 86 31, 87 27
-             C88 24, 90 24, 90 25
-             Z"
-          fill="#F06292"
-          stroke="#C04874"
-          strokeWidth="1.5"
-          filter="url(#shadow)"
-        />
+      <path
+        d="M90 25
+           C92 27, 95 28, 96 30
+           C94 31, 92 34, 91 37
+           C89 33, 86 31, 87 27
+           C88 24, 90 24, 90 25
+           Z"
+        fill="#F06292"
+        stroke="#C04874"
+        strokeWidth="1.5"
+        filter="url(#shadow)"
+      />
 
-        {/* Estrela 3: azul claro com formato mais arredondado */}
-        <path
-          d="M30 40
-             C33 42, 36 43, 38 44
-             C35 44, 32 46, 31 48
-             C28 45, 26 42, 29 39
-             C30 39, 30 40, 30 40
-             Z"
-          fill="#64B5F6"
-          stroke="#2C7DD9"
-          strokeWidth="1.5"
-          filter="url(#shadow)"
-        />
+      <path
+        d="M30 40
+           C33 42, 36 43, 38 44
+           C35 44, 32 46, 31 48
+           C28 45, 26 42, 29 39
+           C30 39, 30 40, 30 40
+           Z"
+        fill="#64B5F6"
+        stroke="#2C7DD9"
+        strokeWidth="1.5"
+        filter="url(#shadow)"
+      />
 
-        {/* Mais estrelas menores espalhadas para completar o fundo */}
-        <circle cx="15" cy="10" r="3" fill="#FFEB3B" opacity="0.7" />
-        <circle cx="50" cy="20" r="2" fill="#F06292" opacity="0.6" />
-        <circle cx="80" cy="15" r="2.5" fill="#64B5F6" opacity="0.5" />
-        <circle cx="110" cy="30" r="3" fill="#FFEB3B" opacity="0.4" />
-      </svg>
-    </>
+      <circle cx="15" cy="10" r="3" fill="#FFEB3B" opacity="0.7" />
+      <circle cx="50" cy="20" r="2" fill="#F06292" opacity="0.6" />
+      <circle cx="80" cy="15" r="2.5" fill="#64B5F6" opacity="0.5" />
+      <circle cx="110" cy="30" r="3" fill="#FFEB3B" opacity="0.4" />
+    </svg>
   );
 }
