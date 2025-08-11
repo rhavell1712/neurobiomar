@@ -13,27 +13,32 @@ export default function HomeComponent() {
   useEffect(() => {
     AOS.init({ duration: 1000, once: true });
 
-    // Partículas (SEM ALTERAÇÃO)
     const particles = document.querySelectorAll('.particle');
+    const intervals: NodeJS.Timeout[] = [];
+
     particles.forEach((p) => {
       const move = () => {
         const x = Math.random() * window.innerWidth;
         const y = Math.random() * window.innerHeight;
         const size = Math.random() * 4 + 2;
-        (p as HTMLElement).style.left = `${x}px`;
-        (p as HTMLElement).style.top = `${y}px`;
-        (p as HTMLElement).style.width = `${size}px`;
+        (p as HTMLElement).style.left = ` ${x}px`;
+        (p as HTMLElement).style.top = ` ${y}px`;
+        (p as HTMLElement).style.width =`${size}px`;
         (p as HTMLElement).style.height = `${size}px`;
       };
       move();
-      setInterval(move, 3000);
+      const interval = setInterval(move, 3000);
+      intervals.push(interval);
     });
+
+    return () => {
+      intervals.forEach(clearInterval);
+    };
   }, []);
 
   return (
     <div className="relative flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-[#050d1c] to-[#0a1a2f] overflow-hidden text-white">
 
-      {/* Partículas (SEM ALTERAÇÃO) */}
       {[...Array(25)].map((_, i) => (
         <div
           key={i}
@@ -41,22 +46,20 @@ export default function HomeComponent() {
         />
       ))}
 
-      {/* Logo */}
       <div className="mb-6" data-aos="zoom-in">
         <Image
           src="/neurobiomar.jpg"
           alt="Logo do NeuroBioMar"
-          width={96}   // equivalente a w-24 (24 * 4px)
-          height={96}  // equivalente a h-24 (24 * 4px)
+          width={96}
+          height={96}
           className="object-cover rounded-full shadow-lg border-3 border-cyan-400"
-          priority={true} // para melhorar o LCP
+          priority={true}
           data-aos="flip-left"
           data-aos-easing="ease-out-cubic"
           data-aos-duration="2000"
         />
       </div>
 
-      {/* Título */}
       <h1
         translate="no"
         className="text-5xl font-extrabold drop-shadow-lg mb-4 tracking-tight"
@@ -72,7 +75,6 @@ export default function HomeComponent() {
         data-aos-delay="300"
       />
 
-      {/* Frase */}
       <p
         className="text-gray-300 text-lg text-center px-6 max-w-md"
         data-aos="fade-up"
@@ -81,7 +83,6 @@ export default function HomeComponent() {
         Conectando tecnologia e saúde para transformar o amanhã.
       </p>
 
-      {/* Botão */}
       <Link href="/sobre">
         <button
           className="mt-10 px-10 py-3 rounded-full font-semibold transition-all duration-300 bg-cyan-400 text-black shadow-lg hover:-translate-y-1 active:translate-y-1 hover:bg-[#00f5d4] focus:outline-none focus:ring-2 focus:ring-[#00f5d4] animate-buttonPulse"
