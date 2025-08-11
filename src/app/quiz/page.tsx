@@ -84,10 +84,10 @@ function Header() {
       role="banner"
     >
       <div className="flex items-center justify-between px-4 py-3 max-w-7xl mx-auto">
-        <img
+        <Image
           src="/neurobiomar.jpg"
           alt="Logo NeuroBioMar"
-          className="w-10 h-10 rounded-full border border-cyan-400"
+          className="rounded-full border border-cyan-400"
           loading="lazy"
           width={40}
           height={40}
@@ -97,11 +97,10 @@ function Header() {
           <span className="text-[#00f5d4]">BIOMAR</span>
         </h1>
         <nav className="hidden md:block" aria-label="Menu principal">
-          <Link
-            href="/jogos"
-            className="text-cyan-400 font-semibold hover:underline focus:outline-none focus:ring-2 focus:ring-cyan-400 rounded"
-          >
+          <Link href="/jogos" className="text-cyan-400 font-semibold hover:underline focus:outline-none focus:ring-2 focus:ring-cyan-400 rounded">
+              
             Voltar aos Jogos
+
           </Link>
         </nav>
       </div>
@@ -298,14 +297,14 @@ function Feedback({
     >
       <p className="font-semibold text-lg">{correct ? "Correto! 😊" : "Resposta incorreta."}</p>
       <p className="mt-2">{explanation}</p>
-      <a
+      <Link
         href={sourceUrl}
         target="_blank"
         rel="noopener noreferrer"
         className="text-cyan-300 underline mt-2 block"
       >
         Fonte: {sourceName}
-      </a>
+      </Link>
       <button
         onClick={onNext}
         className="mt-4 bg-teal-500 px-4 py-2 rounded-md font-semibold hover:bg-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-400"
@@ -399,10 +398,10 @@ export default function QuizPage() {
       {/* Se estiver carregando, mostra loading */}
       {loading ? (
         <div className="flex flex-col items-center justify-center min-h-screen px-4">
-          <img
+          <Image
             src="/neurobiomar.jpg"
             alt="logo"
-            className="w-20 h-20 rounded-full border-cyan-400 mb-6 animate-spin"
+            className="rounded-full border-cyan-400 mb-6 animate-spin"
             loading="lazy"
             width={80}
             height={80}
@@ -432,16 +431,15 @@ export default function QuizPage() {
             >
               Jogar de novo
             </button>
-            <Link
-              href="/games"
-              className="px-5 py-2 rounded-md border border-cyan-400 hover:bg-cyan-500/20 focus:outline-none focus:ring-2 focus:ring-cyan-400"
-            >
-              Voltar aos jogos
+            <Link href="/games"  className="px-5 py-2 rounded-md border border-cyan-400 hover:bg-cyan-500/20 focus:outline-none focus:ring-2 focus:ring-cyan-400">
+              
+                Voltar aos jogos
+             
             </Link>
           </div>
         </main>
       ) : (
-         // Tela principal com pergunta, alternativas e barra de progresso
+        // Tela principal com pergunta, alternativas e barra de progresso
         <main className="max-w-3xl mx-auto p-6" role="main">
           <ProgressBar currentIndex={index} total={questions.length} />
           <QuizCard

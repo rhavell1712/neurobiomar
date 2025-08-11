@@ -93,24 +93,24 @@ function Header({ toggleMenu, menuOpen }: { toggleMenu: () => void; menuOpen: bo
 
           <nav className="hidden md:flex absolute left-[49%] transform -translate-x-1/2">
             <div className="flex gap-8 text-sm font-medium text-white overflow-x-auto scrollbar-hide px-4">
-              <a href="/" className="hover:text-cyan-400 transition whitespace-nowrap">
+              <Link href="/" className="hover:text-cyan-400 transition whitespace-nowrap">
                 Início
-              </a>
-              <a href="/sobre" className="hover:text-cyan-400 transition whitespace-nowrap">
+              </Link>
+              <Link href="/sobre" className="hover:text-cyan-400 transition whitespace-nowrap">
                 Sobre o Projeto
-              </a>
-              <a href="/tecnologia" className="hover:text-cyan-400 transition whitespace-nowrap">
+              </Link>
+              <Link href="/tecnologia" className="hover:text-cyan-400 transition whitespace-nowrap">
                 Tecnologias Inspiradas
-              </a>
-              <a href="/impacto" className="hover:text-cyan-400 transition whitespace-nowrap">
+              </Link>
+              <Link href="/impacto" className="hover:text-cyan-400 transition whitespace-nowrap">
                 Impacto Ambiental
-              </a>
-              <a href="/blog" className="text-cyan-400 font-semibold whitespace-nowrap">
+              </Link>
+              <Link href="/blog" className="text-cyan-400 font-semibold whitespace-nowrap">
                 Blog
-              </a>
-              <a href="/jogos" className="hover:text-cyan-400 transition whitespace-nowrap">
+              </Link>
+              <Link href="/jogos" className="hover:text-cyan-400 transition whitespace-nowrap">
                 Jogos
-              </a>
+              </Link>
             </div>
           </nav>
 
@@ -154,48 +154,48 @@ function Header({ toggleMenu, menuOpen }: { toggleMenu: () => void; menuOpen: bo
           }`}
         >
           <div className="flex flex-col p-6 gap-4 text-white text-sm font-medium">
-            <a
+            <Link
               href="/"
               onClick={toggleMenu}
               className="hover:text-cyan-400 transition border-b border-cyan-800 pb-2"
             >
               Início
-            </a>
-            <a
+            </Link>
+            <Link
               href="/sobre"
               onClick={toggleMenu}
               className="hover:text-cyan-400 transition border-b border-cyan-800 pb-2"
             >
               Sobre o Projeto
-            </a>
-            <a
+            </Link>
+            <Link
               href="/tecnologia"
               onClick={toggleMenu}
               className="hover:text-cyan-400 transition border-b border-cyan-800 pb-2"
             >
               Tecnologias Inspiradas
-            </a>
-            <a
+            </Link>
+            <Link
               href="/impacto"
               onClick={toggleMenu}
               className="hover:text-cyan-400 transition border-b border-cyan-800 pb-2"
             >
               Impacto Ambiental
-            </a>
-            <a
+            </Link>
+            <Link
               href="/blog"
               onClick={toggleMenu}
               className="text-cyan-400 font-semibold border-b border-cyan-800 pb-2"
             >
               Blog
-            </a>
-            <a
+            </Link>
+            <Link
               href="/jogos"
               onClick={toggleMenu}
               className="hover:text-cyan-400 transition border-b border-cyan-800 pb-2"
             >
               Jogos
-            </a>
+            </Link>
           </div>
         </div>
       </div>

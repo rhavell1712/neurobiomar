@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";  // Import para Next.js Image
 import AOS from "aos";
 import "aos/dist/aos.css";
 
@@ -197,10 +198,12 @@ export default function Technology() {
 
       {loading ? (
         <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-[#050d1c] to-[#0a1a2f] text-white px-4">
-          <img
+          <Image
             src="/neurobiomar.jpg"
             alt="Logo"
-            className="w-20 h-20 rounded-full border border-cyan-400 shadow-lg mb-6 animate-pulse"
+            width={80}
+            height={80}
+            className="rounded-full border border-cyan-400 shadow-lg mb-6 animate-pulse"
             data-aos="flip-left"
             data-aos-easing="ease-out-cubic"
             data-aos-duration="2000"
@@ -209,7 +212,7 @@ export default function Technology() {
             Carregando... {progress}%
           </p>
           <div data-aos="fade-up" data-aos-delay="300" className="w-full max-w-xs h-3 bg-gray-700 rounded-full overflow-hidden">
-            <div 
+            <div
               className="h-full bg-cyan-400 transition-all duration-300 ease-in-out"
               style={{ width: `${progress}%` }}
             />
@@ -218,13 +221,15 @@ export default function Technology() {
       ) : (
         <>
           {/* Header */}
-          <header   data-aos="fade-down" className="bg-[#050d1c] border-b border-cyan-800 shadow-md fixed top-0 left-0 w-full z-50">
+          <header data-aos="fade-down" className="bg-[#050d1c] border-b border-cyan-800 shadow-md fixed top-0 left-0 w-full z-50">
             <div className="flex items-center justify-between px-3 py-3 w-full">
               <div className="flex items-center gap-2 ml-2">
-                <img
+                <Image
                   src="/neurobiomar.jpg"
                   alt="Logo"
-                  className="w-10 h-10 rounded-full border border-cyan-400"
+                  width={40}
+                  height={40}
+                  className="rounded-full border border-cyan-400"
                 />
                 <h1 className="text-2xl font-bold whitespace-nowrap">
                   <span className="text-cyan-400">NEURO</span>
@@ -235,12 +240,12 @@ export default function Technology() {
               {/* Menu desktop */}
               <nav className="hidden md:flex absolute left-[49%] transform -translate-x-1/2">
                 <div className="flex gap-8 text-sm font-medium text-white">
-                  <a href="/" className="hover:text-cyan-400 transition">Início</a>
-                  <a href="/sobre" className="hover:text-cyan-400 transition">Sobre o Projeto</a>
-                  <a href="/tecnologia" className="text-cyan-400 font-semibold">Tecnologias Inspiradas</a>
-                  <a href="/impacto" className="hover:text-cyan-400 transition">Impacto Ambiental</a>
-                  <a href="/blog" className="hover:text-cyan-400 transition">Blog</a>
-                  <a href="/jogo" className="hover:text-cyan-400 transition">Jogos</a>
+                  <Link href="/" className="hover:text-cyan-400 transition">Início</Link>
+                  <Link href="/sobre" className="hover:text-cyan-400 transition">Sobre o Projeto</Link>
+                  <Link href="/tecnologia" className="text-cyan-400 font-semibold">Tecnologias Inspiradas</Link>
+                  <Link href="/impacto" className="hover:text-cyan-400 transition">Impacto Ambiental</Link>
+                  <Link href="/blog" className="hover:text-cyan-400 transition">Blog</Link>
+                  <Link href="/jogo" className="hover:text-cyan-400 transition">Jogos</Link>
                 </div>
               </nav>
 
@@ -313,8 +318,7 @@ export default function Technology() {
               {technologies.map(({ title, content }, i) => (
                 <section
                   key={i}
-                 data-aos="zoom-in-down"
-                 
+                  data-aos="zoom-in-down"
                   className="
                     bg-[#0f223a]/90
                     backdrop-blur-md

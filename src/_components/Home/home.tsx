@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import Link from "next/link";
+import Image from "next/image"; // Importando Image
 import AOS from "aos";
 import "aos/dist/aos.css";
 
@@ -42,10 +43,13 @@ export default function HomeComponent() {
 
       {/* Logo */}
       <div className="mb-6" data-aos="zoom-in">
-        <img
+        <Image
           src="/neurobiomar.jpg"
           alt="Logo do NeuroBioMar"
-          className="w-24 h-24 object-cover rounded-full shadow-lg border-3 border-cyan-400"
+          width={96}   // equivalente a w-24 (24 * 4px)
+          height={96}  // equivalente a h-24 (24 * 4px)
+          className="object-cover rounded-full shadow-lg border-3 border-cyan-400"
+          priority={true} // para melhorar o LCP
           data-aos="flip-left"
           data-aos-easing="ease-out-cubic"
           data-aos-duration="2000"
@@ -80,7 +84,6 @@ export default function HomeComponent() {
       {/* Botão */}
       <Link href="/sobre">
         <button
-          onClick={() => router.push('/about')}
           className="mt-10 px-10 py-3 rounded-full font-semibold transition-all duration-300 bg-cyan-400 text-black shadow-lg hover:-translate-y-1 active:translate-y-1 hover:bg-[#00f5d4] focus:outline-none focus:ring-2 focus:ring-[#00f5d4] animate-buttonPulse"
           data-aos="zoom-in"
           data-aos-delay="700"

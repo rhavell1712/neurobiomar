@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import Link from 'next/link';
+import Image from 'next/image';  // IMPORTAÇÃO ADICIONADA
 
 function ParticleBackground() {
   const [particles, setParticles] = useState<
@@ -26,7 +28,7 @@ function ParticleBackground() {
     setParticles(newParticles);
   }, []);
 
-  if (particles.length === 0) return null; // evita render antes do useEffect
+  if (particles.length === 0) return null;
 
   return (
     <>
@@ -91,7 +93,6 @@ export default function Sobre() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
-    // Inicializa o AOS
     AOS.init({ duration: 800, once: true });
 
     let percent = 0;
@@ -121,7 +122,6 @@ export default function Sobre() {
             propondo uma nova forma de criar soluções: através da inspiração na natureza.
             Diferente de iniciativas que apenas usam a tecnologia para explorar, o NeuroBioMar propõe algo inverso: 
             observar, entender e aprender com o oceano, para desenvolver ferramentas que protejam, conectem e inovem.
-
           </p>
         </>
       ),
@@ -206,13 +206,15 @@ export default function Sobre() {
           className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-[#050d1c] to-[#0a1a2f] text-white px-4"
           data-aos="fade-in"
         >
-          <img
+          <Image
             src="/neurobiomar.jpg"
             alt="Logo"
-            className="w-20 h-20 rounded-full border border-cyan-400 shadow-lg mb-6"
-           data-aos="flip-left"
-           data-aos-easing="ease-out-cubic"
-           data-aos-duration="2000"
+            width={80}
+            height={80}
+            className="rounded-full border border-cyan-400 shadow-lg mb-6"
+            data-aos="flip-left"
+            data-aos-easing="ease-out-cubic"
+            data-aos-duration="2000"
           />
           <p
             className="text-lg text-cyan-400 font-semibold mb-2"
@@ -238,10 +240,12 @@ export default function Sobre() {
             <div className="flex items-center justify-between px-3 py-3 w-full">
               {/* Logo e Nome fixos à esquerda */}
               <div className="flex items-center gap-2 ml-2">
-                <img
+                <Image
                   src="/neurobiomar.jpg"
                   alt="Logo"
-                  className="w-10 h-10 rounded-full border border-cyan-400"
+                  width={40}
+                  height={40}
+                  className="rounded-full border border-cyan-400"
                 />
                 <h1 className="text-2xl font-bold whitespace-nowrap">
                   <span className="text-cyan-400">NEURO</span>
@@ -252,12 +256,12 @@ export default function Sobre() {
               {/* Menu desktop centralizado */}
               <nav className="hidden md:flex absolute left-[49%] transform -translate-x-1/2">
                 <div className="flex gap-8 text-sm font-medium text-white overflow-x-auto scrollbar-hide px-4">
-                  <a href="/" className="hover:text-cyan-400 transition whitespace-nowrap">Início</a>
-                  <a href="/sobre" className="text-cyan-400 font-semibold whitespace-nowrap">Sobre o Projeto</a>
-                  <a href="/tecnologia" className="hover:text-cyan-400 transition whitespace-nowrap">Tecnologias Inspiradas</a>
-                  <a href="/impacto" className="hover:text-cyan-400 transition whitespace-nowrap">Impacto Ambiental</a>
-                  <a href="/blog" className="hover:text-cyan-400 transition whitespace-nowrap">Blog</a>
-                  <a href="/jogos" className="hover:text-cyan-400 transition whitespace-nowrap">Jogos</a>
+                  <Link href="/" className="hover:text-cyan-400 transition whitespace-nowrap">Início</Link>
+                  <Link href="/sobre" className="text-cyan-400 font-semibold whitespace-nowrap">Sobre o Projeto</Link>
+                  <Link href="/tecnologia" className="hover:text-cyan-400 transition whitespace-nowrap">Tecnologias Inspiradas</Link>
+                  <Link href="/impacto" className="hover:text-cyan-400 transition whitespace-nowrap">Impacto Ambiental</Link>
+                  <Link href="/blog" className="hover:text-cyan-400 transition whitespace-nowrap">Blog</Link>
+                  <Link href="/jogos" className="hover:text-cyan-400 transition whitespace-nowrap">Jogos</Link>
                 </div>
               </nav>
 
@@ -308,12 +312,12 @@ export default function Sobre() {
               
             >
               <div className="flex flex-col p-6 gap-4 text-white text-sm font-medium">
-                <a href="/" onClick={toggleMenu} className="hover:text-cyan-400 transition border-b border-cyan-800 pb-2">Início</a>
-                <a href="/sobre" onClick={toggleMenu} className="text-cyan-400 font-semibold border-b border-cyan-800 pb-2">Sobre o Projeto</a>
-                <a href="/tecnologia" onClick={toggleMenu} className="hover:text-cyan-400 transition border-b border-cyan-800 pb-2">Tecnologias Inspiradas</a>
-                <a href="/impacto" onClick={toggleMenu} className="hover:text-cyan-400 transition border-b border-cyan-800 pb-2">Impacto Ambiental</a>
-                <a href="/blog" onClick={toggleMenu} className="hover:text-cyan-400 transition border-b border-cyan-800 pb-2">Blog</a>
-                <a href="/jogos" onClick={toggleMenu} className="hover:text-cyan-400 transition border-b border-cyan-800 pb-2">Jogos</a>
+                <Link href="/" onClick={toggleMenu} className="hover:text-cyan-400 transition border-b border-cyan-800 pb-2">Início</Link>
+                <Link href="/sobre" onClick={toggleMenu} className="text-cyan-400 font-semibold border-b border-cyan-800 pb-2">Sobre o Projeto</Link>
+                <Link href="/tecnologia" onClick={toggleMenu} className="hover:text-cyan-400 transition border-b border-cyan-800 pb-2">Tecnologias Inspiradas</Link>
+                <Link href="/impacto" onClick={toggleMenu} className="hover:text-cyan-400 transition border-b border-cyan-800 pb-2">Impacto Ambiental</Link>
+                <Link href="/blog" onClick={toggleMenu} className="hover:text-cyan-400 transition border-b border-cyan-800 pb-2">Blog</Link>
+                <Link href="/jogos" onClick={toggleMenu} className="hover:text-cyan-400 transition border-b border-cyan-800 pb-2">Jogos</Link>
               </div>
             </div>
           </div>
@@ -330,7 +334,7 @@ export default function Sobre() {
                 md:flex-1
                 md:min-w-[350px]"
                 aria-label={title}
-                data-aos="zoom-in-down"    // delay crescente por seção
+                data-aos="zoom-in-down"
               >
                 <h2 className="text-3xl font-extrabold mb-5">{title}</h2>
                 <div className="text-gray-300 leading-relaxed">{content}</div>
