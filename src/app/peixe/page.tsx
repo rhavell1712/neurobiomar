@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
+import { Trash2 } from "lucide-react"; // <-- importa o ícone
+
 
 type Item = {
   id: string;
@@ -101,42 +103,49 @@ export default function Peixinho2D() {
     return () => clearInterval(interval);
   }, [velocity, gameOver]);
 
-  // Detecta colisões
-  useEffect(() => {
-    if (gameOver) return;
+      // Detecta colisões
+      useEffect(() => {
+      if (gameOver) return;
 
-    items.forEach((item) => {
-      if (!gameAreaRef.current) return;
-
+      // Define um padding para a hitbox do peixe (diminuindo a área de detecção)
+      const peixePadding = 10;
       const peixeRect = {
-        x: 60,
-        y: peixeY,
-        width: peixeWidthPx,
-        height: peixeHeightPx,
-      };
-      const itemRect = {
-        x: item.x,
-        y: item.y,
-        width: 50,
-        height: 50,
+        x: 60 + peixePadding,
+        y: peixeY + peixePadding,
+        width: peixeWidthPx - peixePadding * 2,
+        height: peixeHeightPx - peixePadding * 2,
       };
 
-      const collided =
-        peixeRect.x < itemRect.x + itemRect.width &&
-        peixeRect.x + peixeRect.width > itemRect.x &&
-        peixeRect.y < itemRect.y + itemRect.height &&
-        peixeRect.y + peixeRect.height > itemRect.y;
+      items.forEach((item) => {
+        if (!gameAreaRef.current) return;
 
-      if (collided) {
-        if (item.type === "trash") {
-          setScore((s) => s + 1);
-          setItems((old) => old.filter((i) => i.id !== item.id));
-        } else {
-          setGameOver(true);
+        // Hitbox menor para o item (pequena margem para evitar colisão injusta)
+        const itemPadding = 5;
+        const itemRect = {
+          x: item.x + itemPadding,
+          y: item.y + itemPadding,
+          width: 50 - itemPadding * 2,
+          height: 50 - itemPadding * 2,
+        };
+
+        // Verifica colisão real
+        const collided =
+          peixeRect.x < itemRect.x + itemRect.width &&
+          peixeRect.x + peixeRect.width > itemRect.x &&
+          peixeRect.y < itemRect.y + itemRect.height &&
+          peixeRect.y + peixeRect.height > itemRect.y;
+
+        if (collided) {
+          if (item.type === "trash") {
+            setScore((s) => s + 1);
+            setItems((old) => old.filter((i) => i.id !== item.id));
+          } else {
+            setGameOver(true);
+          }
         }
-      }
-    });
-  }, [items, peixeY, gameOver]);
+      });
+    }, [items, peixeY, gameOver]);
+
 
   // Reinicia o jogo
   function resetGame() {
@@ -181,14 +190,11 @@ export default function Peixinho2D() {
               top: peixeY,
               width: peixeWidthPx,
               height: peixeHeightPx,
-              backgroundColor: "#ff7f50",
               borderRadius: "50% / 50%",
-              boxShadow: "inset 10px 0 15px rgba(255,127,80,0.7)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
               fontSize: 36,
-              filter: "drop-shadow(0 0 8px #ff7f50)",
               transition: "top 0.05s linear",
               zIndex: 10,
               userSelect: "none",
@@ -196,40 +202,65 @@ export default function Peixinho2D() {
             }}
             aria-label="Peixe principal"
           >
-            🐠
+            <img src="/images/peixe-principal.png" alt="peixe principal" />
           </div>
 
           {/* Itens */}
           {items.map((item) => (
+          <div
+            key={item.id}
+            style={{
+              position: "absolute",
+              left: item.x,
+              top: item.y,
+              width: 50,
+              height: 50,
+              userSelect: "none",
+              pointerEvents: "none",
+              transition: "left 0.05s linear",
+              filter:
+                item.type === "trash"
+                  ? "drop-shadow(0 0 4px #7ec8e3)"
+                  : "drop-shadow(0 0 6px #f55)",
+              zIndex: 9,
+            }}
+            aria-label={item.type === "trash" ? "Lixo" : "Peixe inimigo"}
+          >
+           {item.type === "trash" ? (
             <div
-              key={item.id}
               style={{
-                position: "absolute",
-                left: item.x,
-                top: item.y,
-                width: 50,
-                height: 50,
-                fontSize: 36,
-                userSelect: "none",
-                pointerEvents: "none",
-                transition: "left 0.05s linear",
-                filter:
-                  item.type === "trash"
-                    ? "drop-shadow(0 0 4px #7ec8e3)"
-                    : "drop-shadow(0 0 6px #f55)",
-                zIndex: 9,
+                width: "100%",
+                height: "100%",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
               }}
-              aria-label={item.type === "trash" ? "Lixo" : "Peixe inimigo"}
             >
-              {item.type === "trash" ? "🗑" : "🐠"}
+              <Trash2
+                size={42}      // tamanho do ícone
+                color="#ffffff"
+                strokeWidth={2} // deixa mais "forte" e visível
+              />
             </div>
-          ))}
+          ) : (
+              <img
+                src="/images/fish.png"  // Coloque aqui o caminho da imagem do inimigo
+                alt="Inimigo"
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "contain",
+                  transform: "scaleX(1)", // Faz o inimigo olhar da direita para a esquerda
+                }}
+              />
+              
+            )}
+          </div>
+        ))}
+
 
           {/* Pedras */}
           <Stones />
-
-          {/* Algas */}
-          <Seaweed />
 
           {/* Fundo animais */}
           <BackgroundAnimals />
@@ -340,57 +371,6 @@ export default function Peixinho2D() {
   );
 }
 
-// Algas animadas
-function Seaweed() {
-  return (
-    <svg
-      style={{
-        position: "absolute",
-        bottom: 80,
-        left: 0,
-        width: "100%",
-        height: "20vh",
-        pointerEvents: "none",
-        zIndex: 3,
-        userSelect: "none",
-        opacity: 0.8,
-      }}
-      viewBox="0 0 120 40"
-      preserveAspectRatio="none"
-    >
-      <path
-        fill="#0b3d0b"
-        d="M10 40 Q12 30 10 20 Q12 10 10 0 L11 0 Q13 10 11 20 Q13 30 11 40 Z"
-        style={{ animation: "sway 3s ease-in-out infinite" }}
-        transform="translate(5,0) scale(0.6)"
-      />
-      <path
-        fill="#0a2e0a"
-        d="M20 40 Q22 28 20 18 Q22 8 20 -2 L21 -2 Q23 8 21 18 Q23 28 21 40 Z"
-        style={{ animation: "sway 4s ease-in-out infinite", animationDelay: "1s" }}
-        transform="translate(25,0) scale(0.5)"
-      />
-      <path
-        fill="#0c3a0c"
-        d="M30 40 Q32 30 30 16 Q32 6 30 -4 L31 -4 Q33 6 31 16 Q33 30 31 40 Z"
-        style={{ animation: "sway 3.5s ease-in-out infinite", animationDelay: "0.5s" }}
-        transform="translate(45,0) scale(0.7)"
-      />
-      <path
-        fill="#0a2e0a"
-        d="M40 40 Q42 30 40 20 Q42 10 40 0 L41 0 Q43 10 41 20 Q43 30 41 40 Z"
-        style={{ animation: "sway 3.8s ease-in-out infinite", animationDelay: "1.3s" }}
-        transform="translate(70,0) scale(0.6)"
-      />
-      <path
-        fill="#0b3d0b"
-        d="M50 40 Q52 30 50 20 Q52 10 50 0 L51 0 Q53 10 51 20 Q53 30 51 40 Z"
-        style={{ animation: "sway 4.2s ease-in-out infinite", animationDelay: "0.7s" }}
-        transform="translate(90,0) scale(0.55)"
-      />
-    </svg>
-  );
-}
 
 // Pedras no chão
 function Stones() {

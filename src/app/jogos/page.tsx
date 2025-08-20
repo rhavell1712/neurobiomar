@@ -259,11 +259,11 @@ export default function GamesIndex() {
       href: "/peixe",
     },
     {
-      id: "labirinto",
+      id: "Hero-Fish",
       title: "Labirinto Marinho (coming soon)",
-      subtitle: "labirinto",
+      subtitle: "Hero-Fish",
       image: "/imagens/jogos/memory-cover.jpg",
-      href: "/labirinto",
+      href: "/hero-fish",
     },
   ];
 
