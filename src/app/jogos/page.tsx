@@ -120,6 +120,13 @@ export default function GamesIndex() {
       image: "/images/Captura de Tela (38).png",
       href: "/peixe3d",
     },
+     {
+      id: "jogo-da-memoria",
+      title: "EcoFish",
+      subtitle: "EcoFish - O desafio de proteger o fundo do mar",
+      image: "/images/img-memory-game.jpg",
+      href: "/jogo-da-memoria",
+    },
   ];
 
   return (

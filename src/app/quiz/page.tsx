@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useMemo, useRef } from "react";
+import { useEffect, useState, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -110,6 +110,7 @@ type Question = {
   sourceUrl: string;
 };
 
+// Exemplo de perguntas
 const questions: Question[] = [
   // 🌊 Perguntas fáceis (nível 1)
   {
@@ -423,7 +424,6 @@ const questions: Question[] = [
   },
 ];
 
-
 /* ===================== Barra de Progresso ===================== */
 function ProgressBar({ currentIndex, total }: { currentIndex: number; total: number }) {
   const progressPercent = useMemo(() => ((currentIndex + 1) / total) * 100, [currentIndex, total]);
@@ -440,19 +440,27 @@ function ProgressBar({ currentIndex, total }: { currentIndex: number; total: num
   );
 }
 
+/* ===================== Função para embaralhar ===================== */
+function shuffleArray<T>(array: T[]): T[] {
+  const arr = [...array];
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
 /* ===================== Card da Pergunta ===================== */
 function QuizCard({
   question,
   selected,
   feedbackVisible,
   onSelectChoice,
-  answerIndex,
 }: {
-  question: Question;
+  question: Question & { shuffledChoices: string[]; correctShuffledIndex: number };
   selected: number | null;
   feedbackVisible: boolean;
   onSelectChoice: (choiceIndex: number) => void;
-  answerIndex: number;
 }) {
   return (
     <article
@@ -473,8 +481,8 @@ function QuizCard({
       </div>
 
       <div className="p-6 grid gap-4">
-        {question.choices.map((choice, i) => {
-          const isCorrect = i === question.answerIndex;
+        {question.shuffledChoices.map((choice, i) => {
+          const isCorrect = i === question.correctShuffledIndex;
           const isSelected = selected === i;
           const base =
             "p-3 rounded-lg text-left border transition focus:outline-none focus:ring-2 font-medium transform";
@@ -508,8 +516,9 @@ function QuizCard({
   );
 }
 
-/* ===================== Feedback ===================== */
-function Feedback({
+
+/* ===================== Feedback Flutuante ===================== */
+function FloatingFeedback({
   correct,
   explanation,
   sourceName,
@@ -525,31 +534,45 @@ function Feedback({
   isLast: boolean;
 }) {
   return (
-    <section
-      className="p-6 bg-white/10 border-t border-teal-400 mt-4 rounded-b-lg text-white max-w-3xl mx-auto animate-fadeIn"
+    <div
+      className="fixed inset-0 flex items-center justify-center z-50 pointer-events-none"
       aria-live="assertive"
       role="region"
       aria-label="Feedback da resposta"
-      style={{ minHeight: "140px" }}
     >
-      <p className="font-semibold text-lg">{correct ? "Correto! 🎉" : "Resposta incorreta 😅"}</p>
-      <p className="mt-2">{explanation}</p>
-      <Link
-        href={sourceUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="text-cyan-300 underline mt-2 block"
+      <div
+        className="bg-[#0a1a2fcc] backdrop-blur-md border-2 border-teal-400 rounded-xl p-6 text-white max-w-md w-full shadow-lg transform transition-all duration-700 ease-out opacity-0 animate-fadeInUp pointer-events-auto"
+        style={{ animationFillMode: "forwards" }}
       >
-        Fonte: {sourceName}
-      </Link>
-      <button
-        onClick={onNext}
-        className="mt-4 bg-teal-500 px-4 py-2 rounded-md font-semibold hover:bg-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-400 transition transform hover:scale-105"
-        type="button"
-      >
-        {isLast ? "Ver resultado" : "Próxima"}
-      </button>
-    </section>
+        <p className="font-bold text-2xl mb-2">{correct ? "Correto! 🎉" : "Resposta incorreta 😅"}</p>
+        <p className="mb-3">{explanation}</p>
+        <Link
+          href={sourceUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-cyan-300 underline mb-4 block"
+        >
+          Fonte: {sourceName}
+        </Link>
+        <button
+          onClick={onNext}
+          className="mt-2 w-full bg-teal-500 px-4 py-2 rounded-md font-semibold hover:bg-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-400 transition transform hover:scale-105 pointer-events-auto"
+          type="button"
+        >
+          {isLast ? "Ver resultado" : "Próxima"}
+        </button>
+      </div>
+
+      <style>{`
+        @keyframes fadeInUp {
+          0% { opacity: 0; transform: translateY(50px); }
+          100% { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fadeInUp {
+          animation: fadeInUp 0.7s ease-out forwards;
+        }
+      `}</style>
+    </div>
   );
 }
 
@@ -598,8 +621,9 @@ export default function QuizPage() {
   const [score, setScore] = useState(0);
   const [done, setDone] = useState(false);
 
-  const [timeLeft, setTimeLeft] = useState(15);
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const [shuffledQuestions, setShuffledQuestions] = useState<
+    (Question & { shuffledChoices: string[]; correctShuffledIndex: number })[]
+  >([]);
 
   /* Loading inicial animado */
   useEffect(() => {
@@ -615,48 +639,27 @@ export default function QuizPage() {
     return () => clearInterval(timer);
   }, []);
 
-  const currentQuestion = questions[index];
-  const isCorrect = selected === currentQuestion.answerIndex;
-  const isLast = index + 1 >= questions.length;
-
-  /* Timer para cada questão */
+  /* Embaralha perguntas e respostas */
   useEffect(() => {
-    setTimeLeft(15);
-    if (timerRef.current) clearInterval(timerRef.current);
+    const shuffled = questions.map((q) => {
+      const shuffledChoices = shuffleArray(q.choices);
+      const correctShuffledIndex = shuffledChoices.indexOf(q.choices[q.answerIndex]);
+      return { ...q, shuffledChoices, correctShuffledIndex };
+    });
+    setShuffledQuestions(shuffleArray(shuffled));
+  }, []);
 
-    timerRef.current = setInterval(() => {
-      setTimeLeft((t) => {
-        if (t <= 1) {
-          clearInterval(timerRef.current!);
-          handleTimeout();
-          return 0;
-        }
-        return t - 1;
-      });
-    }, 1000);
+  const currentQuestion = shuffledQuestions[index];
+  const isCorrect = currentQuestion ? selected === currentQuestion.correctShuffledIndex : false;
+  const isLast = currentQuestion ? index + 1 >= shuffledQuestions.length : false;
 
-    return () => clearInterval(timerRef.current!);
-  }, [index]);
-
-  /* Selecionar resposta */
-  const choose = (i: number) => {
-    if (feedbackVisible) return;
-    setSelected(i);
-    if (i === currentQuestion.answerIndex) setScore((s) => s + 1);
+  const choose = (choiceIndex: number) => {
+    if (!currentQuestion) return;
+    setSelected(choiceIndex);
     setFeedbackVisible(true);
-    clearInterval(timerRef.current!);
-    setTimeout(next, 1200);
+    if (choiceIndex === currentQuestion.correctShuffledIndex) setScore((s) => s + 1);
   };
 
-  /* Quando o tempo zerar */
-  const handleTimeout = () => {
-    if (feedbackVisible) return;
-    setSelected(null);
-    setFeedbackVisible(true);
-    setTimeout(next, 1200);
-  };
-
-  /* Próxima pergunta */
   const next = () => {
     setFeedbackVisible(false);
     setSelected(null);
@@ -664,18 +667,23 @@ export default function QuizPage() {
     else setIndex((i) => i + 1);
   };
 
-  /* Reiniciar quiz */
   const restart = () => {
     setIndex(0);
     setScore(0);
     setSelected(null);
     setFeedbackVisible(false);
     setDone(false);
+    const shuffled = questions.map((q) => {
+      const shuffledChoices = shuffleArray(q.choices);
+      const correctShuffledIndex = shuffledChoices.indexOf(q.choices[q.answerIndex]);
+      return { ...q, shuffledChoices, correctShuffledIndex };
+    });
+    setShuffledQuestions(shuffleArray(shuffled));
   };
 
-  const circleRadius = 26;
-  const circleCircumference = 2 * Math.PI * circleRadius;
-  const progressCircle = (timeLeft / 15) * circleCircumference;
+  if (!currentQuestion) {
+    return <div className="text-white p-4">Nenhuma pergunta disponível.</div>;
+  }
 
   return (
     <div className="relative min-h-screen text-white bg-gradient-to-b from-[#050d1c] to-[#0a1a2f] flex flex-col">
@@ -699,59 +707,20 @@ export default function QuizPage() {
           </div>
         </div>
       ) : done ? (
-        <FinalFeedback score={score} total={questions.length} onRestart={restart} />
+        <FinalFeedback score={score} total={shuffledQuestions.length} onRestart={restart} />
       ) : (
         <main className="flex flex-col items-center justify-start max-w-3xl mx-auto p-4 w-full flex-grow">
-          <ProgressBar currentIndex={index} total={questions.length} />
-
-          {/* Temporizador com círculo */}
-          <div className="mb-6 flex items-center justify-center">
-            <svg className="w-16 h-16" viewBox="0 0 60 60" aria-label={`Tempo restante: ${timeLeft} segundos`} role="img">
-              <circle
-                className="text-gray-700"
-                strokeWidth="5"
-                stroke="currentColor"
-                fill="transparent"
-                r={circleRadius}
-                cx="30"
-                cy="30"
-              />
-              <circle
-                className={`transition-stroke duration-500 ease-in-out`}
-                strokeWidth="5"
-                stroke={timeLeft > 10 ? "#00f5d4" : timeLeft > 5 ? "#facc15" : "#f87171"}
-                fill="transparent"
-                r={circleRadius}
-                cx="30"
-                cy="30"
-                strokeDasharray={circleCircumference}
-                strokeDashoffset={circleCircumference - progressCircle}
-                style={{ transform: "rotate(-90deg)", transformOrigin: "50% 50%" }}
-              />
-              <text
-                x="50%"
-                y="50%"
-                dominantBaseline="middle"
-                textAnchor="middle"
-                fontSize="18"
-                fill="#00f5d4"
-                fontWeight="bold"
-              >
-                {timeLeft}s
-              </text>
-            </svg>
-          </div>
+          <ProgressBar currentIndex={index} total={shuffledQuestions.length} />
 
           <QuizCard
             question={currentQuestion}
             selected={selected}
             feedbackVisible={feedbackVisible}
             onSelectChoice={choose}
-            answerIndex={currentQuestion.answerIndex}
           />
 
           {feedbackVisible && (
-            <Feedback
+            <FloatingFeedback
               correct={isCorrect}
               explanation={currentQuestion.explanation}
               sourceName={currentQuestion.sourceName}

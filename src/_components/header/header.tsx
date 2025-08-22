@@ -13,7 +13,7 @@ export default function Header() {
     <>
       {/* Header */}
       <header
-        className="bg-[#050d1c] border-b border-cyan-800 shadow-md fixed top-0 left-0 w-full z-50"
+        data-aos="fade-down"  className="bg-[#050d1c] border-b border-cyan-800 shadow-md fixed top-0 left-0 w-full z-50"
       >
         <div className="flex items-center justify-between px-3 py-3 w-full">
           {/* Logo e Nome fixos à esquerda */}
@@ -24,8 +24,12 @@ export default function Header() {
               width={40}
               height={40}
               className="rounded-full border border-cyan-400"
+              data-aos="flip-left"
+              data-aos-easing="ease-out-cubic"
+              data-aos-duration="2000"
+              priority
             />
-            <h1 className="text-2xl font-bold whitespace-nowrap">
+            <h1 data-aos="zoom-in" data-aos-duration="8000" className="text-2xl font-bold whitespace-nowrap">
               <span className="text-cyan-400">NEURO</span>
               <span className="text-[#00f5d4]">BIOMAR</span>
             </h1>
@@ -34,12 +38,13 @@ export default function Header() {
           {/* Menu desktop centralizado */}
           <nav className="hidden md:flex absolute left-[49%] transform -translate-x-1/2">
             <div className="flex gap-8 text-sm font-medium text-white overflow-x-auto scrollbar-hide px-4">
-              <Link href="/" className="hover:text-cyan-400 transition whitespace-nowrap">Início</Link>
-              <Link href="/sobre" className="text-cyan-400 font-semibold whitespace-nowrap">Sobre o Projeto</Link>
-              <Link href="/tecnologia" className="hover:text-cyan-400 transition whitespace-nowrap">Tecnologias Inspiradas</Link>
-              <Link href="/impacto" className="hover:text-cyan-400 transition whitespace-nowrap">Impacto Ambiental</Link>
-              <Link href="/blog" className="hover:text-cyan-400 transition whitespace-nowrap">Blog</Link>
-              <Link href="/jogos" className="hover:text-cyan-400 transition whitespace-nowrap">Jogos</Link>
+              <Link href="/" data-aos="zoom-in" data-aos-duration="8000" className="hover:text-cyan-400 transition whitespace-nowrap">Início</Link>
+              <Link href="/sobre" data-aos="zoom-in" data-aos-duration="8000" className="text-cyan-400 font-semibold whitespace-nowrap">Sobre o Projeto</Link>
+              <Link href="/tecnologia" data-aos="zoom-in" data-aos-duration="8000" className="hover:text-cyan-400 transition whitespace-nowrap">Tecnologias Inspiradas</Link>
+              <Link href="/impacto" data-aos="zoom-in" data-aos-duration="8000" className="hover:text-cyan-400 transition whitespace-nowrap">Impacto Ambiental</Link>
+              <Link href="/blog" data-aos="zoom-in" data-aos-duration="8000" className="hover:text-cyan-400 transition whitespace-nowrap">Blog</Link>
+              <Link href="/fqa" data-aos="zoom-in" data-aos-duration="8000" className="hover:text-cyan-400 transition whitespace-nowrap">FQA</Link>
+              <Link href="/jogos" data-aos="zoom-in"  className="hover:text-cyan-400 transition whitespace-nowrap">Jogos</Link>
             </div>
           </nav>
 
@@ -92,6 +97,7 @@ export default function Header() {
             <Link href="/tecnologia" onClick={toggleMenu} className="hover:text-cyan-400 transition border-b border-cyan-800 pb-2">Tecnologias Inspiradas</Link>
             <Link href="/impacto" onClick={toggleMenu} className="hover:text-cyan-400 transition border-b border-cyan-800 pb-2">Impacto Ambiental</Link>
             <Link href="/blog" onClick={toggleMenu} className="hover:text-cyan-400 transition border-b border-cyan-800 pb-2">Blog</Link>
+            <Link href="/fqa" onClick={toggleMenu} className="hover:text-cyan-400 transition border-b border-cyan-800 pb-2">FQA</Link>
             <Link href="/jogos" onClick={toggleMenu} className="hover:text-cyan-400 transition border-b border-cyan-800 pb-2">Jogos</Link>
           </div>
         </div>
