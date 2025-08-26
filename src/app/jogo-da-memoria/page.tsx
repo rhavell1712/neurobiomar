@@ -9,7 +9,23 @@ type Card = {
   matched: boolean;
 };
 
-const labels = Array.from({ length: 15 }, (_, i) => String.fromCharCode(65 + i));
+const labels = [
+  "/images/agua-viva-memory.jpg",
+  "/images/baleia-memory.jpg",
+  "/images/caracol.jpg",
+  "/images/cardumes-memory.jpeg",
+  "/images/cavalo-marinho.avif",
+  "/images/corais-memory.avif",
+  "/images/estrela-memory.webp",
+  "/images/golfinho-memory.jpg",
+  "/images/lesma-memory.jpg",
+  "/images/oceano-positivo.jpg",
+  "/images/peixe-memory1.avif",
+  "/images/peixe-memory2.avif",
+  "/images/polvos-memory.webp",
+  "/images/tartaruga-2.jpg",
+  "/images/tartaruga.jpg",
+];
 
 export default function MemoryGame() {
   const [cards, setCards] = useState<Card[]>([]);
@@ -54,19 +70,20 @@ export default function MemoryGame() {
     if (firstChoice && secondChoice) {
       setDisabled(true);
       setAttempts((prev) => prev + 1);
-
       if (firstChoice.label === secondChoice.label) {
         setCards((prev) =>
-          prev.map((c) => (c.label === firstChoice.label ? { ...c, matched: true } : c))
+          prev.map((c) =>
+            c.label === firstChoice.label ? { ...c, matched: true } : c
+          )
         );
         setMatches((prev) => prev + 1);
         setCombo((prev) => prev + 1);
-        showFeedback(true); // Perfeito
-        showConfetes(); // Estrelinhas
-        if (combo + 1 > 1) showCombo(combo + 1); // Combo animação
+        showFeedback(true);
+        showConfetes();
+        if (combo + 1 > 1) showCombo(combo + 1);
         setTimeout(() => resetTurn(), 1000);
       } else {
-        showFeedback(false); // Erro
+        showFeedback(false);
         setCombo(0);
         setTimeout(() => resetTurn(), 1000);
       }
@@ -92,12 +109,12 @@ export default function MemoryGame() {
   const flipped = (card: Card) =>
     card === firstChoice || card === secondChoice || card.matched;
 
+  // ------------------ Feedbacks no centro ------------------
   const showFeedback = (correct: boolean) => {
     const id = Math.random();
     const message = correct ? "Perfeito!" : "Erro!";
     const color = correct ? "#00FF00" : "#FF3333";
     const fontSize = correct ? "4rem" : "3.5rem";
-
     const newFeedback = (
       <motion.div
         key={id}
@@ -107,9 +124,9 @@ export default function MemoryGame() {
         transition={{ duration: 1, type: "spring", stiffness: 300 }}
         style={{
           position: "fixed",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
+          top: "50% !important",
+          left: "50% !important",
+          transform: "translate(-50%, -50%) !important",
           fontSize,
           color,
           fontWeight: "bold",
@@ -122,9 +139,11 @@ export default function MemoryGame() {
         {message}
       </motion.div>
     );
-
     setFeedbacks((prev) => [...prev, newFeedback]);
-    setTimeout(() => setFeedbacks((prev) => prev.filter((f) => f !== newFeedback)), 1500);
+    setTimeout(
+      () => setFeedbacks((prev) => prev.filter((f) => f !== newFeedback)),
+      1500
+    );
   };
 
   const showConfetes = () => {
@@ -156,7 +175,10 @@ export default function MemoryGame() {
     }
     setSpecialEffects((prev) => [...prev, ...newConfetes]);
     setTimeout(
-      () => setSpecialEffects((prev) => prev.filter((f) => !newConfetes.includes(f))),
+      () =>
+        setSpecialEffects((prev) =>
+          prev.filter((f) => !newConfetes.includes(f))
+        ),
       2500
     );
   };
@@ -172,9 +194,9 @@ export default function MemoryGame() {
         transition={{ duration: 1, type: "spring", stiffness: 300 }}
         style={{
           position: "fixed",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
+          top: "50% !important",
+          left: "50% !important",
+          transform: "translate(-50%, -50%) !important",
           fontSize: "5rem",
           color: "#00FFFF",
           fontWeight: "bold",
@@ -188,9 +210,13 @@ export default function MemoryGame() {
       </motion.div>
     );
     setSpecialEffects((prev) => [...prev, newCombo]);
-    showConfetes(); // combo também tem estrelinhas
-    setTimeout(() => setSpecialEffects((prev) => prev.filter((f) => f !== newCombo)), 1500);
+    showConfetes();
+    setTimeout(
+      () => setSpecialEffects((prev) => prev.filter((f) => f !== newCombo)),
+      1500
+    );
   };
+  // ------------------ Fim Feedbacks ------------------
 
   return (
     <div className="relative w-full min-h-screen bg-gradient-to-b from-[#050d1c] to-[#0a1a2f] flex flex-col items-center justify-start overflow-hidden p-4">
@@ -199,7 +225,6 @@ export default function MemoryGame() {
           <h2 className="text-3xl md:text-4xl font-bold text-cyan-400 text-center mb-6 drop-shadow-lg">
             Jogo da Memória Oceânica
           </h2>
-
           <div className="flex gap-4 mb-4">
             <motion.button
               onClick={restartGame}
@@ -218,11 +243,9 @@ export default function MemoryGame() {
               Voltar aos jogos
             </motion.button>
           </div>
-
           <div className="text-cyan-300 text-lg md:text-xl mb-4 text-center">
             Tentativas: {attempts} | Pares: {matches}/{labels.length} | Restantes: {labels.length - matches}
           </div>
-
           <div className="grid grid-cols-6 md:grid-cols-6 gap-4 justify-center items-center w-full max-w-[650px]">
             <AnimatePresence>
               {cards.map((card, index) => (
@@ -244,20 +267,26 @@ export default function MemoryGame() {
                       transition={{ duration: 0.5 }}
                       style={{ transformStyle: "preserve-3d" }}
                     >
+                      {/* Verso da carta */}
                       <div
                         className="absolute w-full h-full bg-[#0a1a2f] border-2 border-cyan-400 rounded-lg flex items-center justify-center text-2xl font-bold text-cyan-400"
                         style={{ backfaceVisibility: "hidden" }}
                       >
                         ?
                       </div>
+                      {/* Frente da carta */}
                       <div
-                        className="absolute w-full h-full rounded-lg flex items-center justify-center border-2 border-cyan-400 text-4xl font-bold text-cyan-400"
+                        className="absolute w-full h-full rounded-lg flex items-center justify-center border-2 border-cyan-400 bg-white"
                         style={{
                           backfaceVisibility: "hidden",
                           transform: "rotateY(180deg)",
                         }}
                       >
-                        {card.label}
+                        <img
+                          src={card.label}
+                          alt="Card"
+                          className="w-full h-full object-cover rounded-lg"
+                        />
                       </div>
                     </motion.div>
                   </motion.div>
