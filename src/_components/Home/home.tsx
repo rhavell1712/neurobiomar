@@ -84,7 +84,7 @@ export default function HomeComponent() {
         data-aos="fade-up"
         data-aos-delay="500"
       >
-        Conectando tecnologia e saúde para transformar o amanhã.
+        Unindo o conhecimento do oceano à inovação e à sustentabilidade
       </p>
 
       {/* Botão explorar */}

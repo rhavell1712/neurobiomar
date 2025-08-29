@@ -21,6 +21,7 @@ export default function Header() {
     { href: "/blog", label: "Blog" },
     { href: "/fqa", label: "FQA" },
     { href: "/jogos", label: "Jogos" },
+    { href: "/deepvolt", label: "DeepVolt" },
   ];
 
   // Atualiza underline quando muda de rota
@@ -84,8 +85,8 @@ export default function Header() {
           </div>
 
           {/* Menu desktop */}
-          <nav ref={navRef} className="hidden md:flex absolute left-[50%] transform -translate-x-1/2">
-            <div className="flex gap-8 text-sm font-medium overflow-x-auto scrollbar-hide px-4 relative">
+          <nav ref={navRef} className="hidden md:flex absolute left-[50%] transform -translate-x-1/2 whitespace-nowrap">
+            <div className="flex gap-8 text-sm font-medium px-4 relative">
               {links.map(link => (
                 <Link key={link.href} href={link.href} className={linkClass(link.href)}>
                   {link.label}
