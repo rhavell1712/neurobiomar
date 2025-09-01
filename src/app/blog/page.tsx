@@ -132,6 +132,14 @@ export default function Blog() {
       a: "https://www.caltech.edu/about/news/building-bionic-jellyfish-for-ocean-exploration",
       sourceName: "Caltech (Instituto de Tecnologia da Califórnia)",
     },
+    {
+      title: "Drones Subaquáticos: Explore os Mistérios do Oceano Hoje!",
+      description:
+        "Os drones subaquáticos, também conhecidos como ROVs (Remotely Operated Vehicles), vêm transformando a topografia e a exploração de ambientes aquáticos. Inspirados nos movimentos de peixes, lulas e outros organismos marinhos, esses equipamentos são projetados para navegar com eficiência e agilidade em locais de difícil acesso, minimizando impactos ambientais.Equipados com câmeras de alta resolução, sensores de profundidade e sistemas de navegação avançados, os drones subaquáticos permitem mapeamentos precisos do fundo marinho, inspeções de estruturas submersas e monitoramento ambiental. Sua integração com tecnologias como GNSS e softwares de modelagem 3D possibilita a criação de modelos digitais detalhados, facilitando análises e decisões em engenharia, pesquisa científica e conservação ambiental.",
+      image: "/images/Drones-subaquaticos-2-1024x594.jpg",
+      a: "https://ibtopografia.com/blog/tecnologia-e-inovacao-na-topografia/drones-subaquaticos/",
+      sourceName: "Instituto Brasileiro de Topografia",
+    },
   ];
 
   return (

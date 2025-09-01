@@ -66,7 +66,7 @@ function ParticleBackground() {
             style={{
               width: p.size + "px",
               height: p.size + "px",
-              top: p.top + "%",
+              top: p.top + "%", 
               left: p.left + "%",
               animationDuration: p.duration + "s",
               animationDelay: p.delay + "s",
@@ -99,40 +99,47 @@ export default function DeepVolt() {
 
   const sections = [
     {
-    title: '🌊 DeepVolt – Energia inspirada pelo oceano',
-    content: (
+      title: '🌊 DeepVolt – Energia inspirada pelo oceano',
+      content: (
         <>
-        <p>
-            O <strong>DeepVolt</strong> é um robô subaquático autossuficiente inspirado em animais marinhos. Ele gera e armazena sua própria energia usando princípios da biomimética, criando tecnologia inovadora baseada na natureza.
-        </p>
+          <p>
+            O <strong>DeepVolt</strong> é um projeto tecnológico inovador inspirado em animais marinhos. 
+            Ele propõe a criação de um robô subaquático autossuficiente, capaz de gerar e armazenar sua própria energia, 
+            usando princípios da biomimética — ciência que imita a natureza para criar novas tecnologias.
+          </p>
 
-      
-       {/* Vídeo incorporado */}
-      <div className="mt-6 flex justify-center">
-        <video
-          src="/images/drone.mp4" // substitua pelo caminho do seu vídeo
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="w-full max-w-2xl rounded-xl border-4 border-cyan-400 shadow-lg"
-        />
-      </div>
-
+          {/* Vídeo incorporado */}
+          <div className="mt-6 flex justify-center">
+            <video
+              src="/images/drone.mp4"
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="w-full max-w-2xl rounded-xl border-4 border-cyan-400 shadow-lg"
+            />
+          </div>
         </>
-    ),
+      ),
     },
-
     {
       title: '🔹 Como o DeepVolt gera energia?',
       content: (
         <ul className="list-disc list-inside space-y-2 text-gray-300">
-          <li><strong>⚡ Bioeletricidade Artificial (Enguia e Arraia Elétrica)</strong><br/>
-            Converte íons da água em eletricidade, armazenada em baterias internas.</li>
-          <li><strong>🌊 Energia das Correntes Oceânicas (Baleia e Tubarão)</strong><br/>
-            Nadadeiras flexíveis captam o movimento da água, transformando energia mecânica em eletricidade.</li>
-          <li><strong>☀️ Energia Solar</strong><br/>
-            “Asas solares” retráteis recarregam as baterias na superfície.</li>
+          <li>
+            <strong>⚡ Bioeletricidade Artificial (Enguia e Arraia Elétrica)</strong><br />
+            As enguias e arraias produzem descargas elétricas através de células chamadas eletrócitos. 
+            O DeepVolt usa materiais especiais que imitam esse processo, convertendo íons da água do mar em eletricidade, 
+            armazenada em baterias internas para alimentar motores e sensores.
+          </li>
+          <li>
+            <strong>🌊 Energia das Correntes Oceânicas (Baleia e Tubarão)</strong><br />
+            Nadadeiras flexíveis captam o movimento da água, transformando-o em energia mecânica e depois em eletricidade, como uma mini turbina.
+          </li>
+          <li>
+            <strong>☀️ Energia Solar (camada externa)</strong><br />
+            Na superfície, “asas solares” retráteis recarregam as baterias com luz do sol, garantindo energia mesmo fora da água.
+          </li>
         </ul>
       ),
     },
@@ -140,7 +147,8 @@ export default function DeepVolt() {
       title: '🔹 Como ele se move?',
       content: (
         <p>
-          Corpo hidrodinâmico inspirado em tubarões, nadadeiras flexíveis como arraias e propulsão híbrida, combinando energia elétrica gerada e correntes marinhas.
+          Corpo hidrodinâmico inspirado no formato do tubarão, nadadeiras flexíveis como arraias, 
+          e propulsão híbrida combinando energia elétrica gerada e correntes oceânicas.
         </p>
       ),
     },
@@ -148,10 +156,10 @@ export default function DeepVolt() {
       title: '🔹 O que o DeepVolt pode fazer?',
       content: (
         <ul className="list-disc list-inside space-y-2 text-gray-300">
-          <li>✅ Nadar de forma autônoma sem precisar de recarga.</li>
+          <li>✅ Nadar de forma autônoma por longos períodos sem precisar recarga.</li>
           <li>✅ Coletar dados ambientais (temperatura, salinidade, poluição, correntes).</li>
           <li>✅ Transmitir informações em tempo real para centros de pesquisa.</li>
-          <li>✅ Formar redes de monitoramento com outros DeepVolts.</li>
+          <li>✅ Formar redes de monitoramento com outros DeepVolts, criando um “enxame inteligente”.</li>
         </ul>
       ),
     },
@@ -159,9 +167,9 @@ export default function DeepVolt() {
       title: '🔹 Por que o DeepVolt é importante?',
       content: (
         <ul className="list-disc list-inside space-y-2 text-gray-300">
-          <li>🌍 Combate às mudanças climáticas monitorando o oceano.</li>
-          <li>🌊 Protege a vida marinha contra poluição e pesca ilegal.</li>
-          <li>⚡ Demonstra tecnologias limpas inspiradas na natureza.</li>
+          <li>🌍 Ajuda no combate às mudanças climáticas monitorando o oceano.</li>
+          <li>🌊 Auxilia na proteção da vida marinha contra poluição e pesca ilegal.</li>
+          <li>⚡ Mostra como criar tecnologias limpas e sustentáveis inspiradas na natureza.</li>
         </ul>
       ),
     },
@@ -169,7 +177,8 @@ export default function DeepVolt() {
       title: '📌 Resumo simples',
       content: (
         <p>
-          O DeepVolt é um robô inspirado em tubarões, baleias e enguias que gera energia de três formas: descargas elétricas, correntes oceânicas e energia solar. Ele pode se mover sozinho, monitorar os oceanos e trabalhar em rede com outros robôs sem precisar de recarga externa.
+          O DeepVolt é um robô inspirado em tubarões, baleias e enguias que gera energia de três formas: descargas elétricas, correntes oceânicas e energia solar. 
+          Ele pode se mover sozinho, monitorar os oceanos e trabalhar em rede com outros robôs sem precisar de recarga externa.
         </p>
       ),
     },
