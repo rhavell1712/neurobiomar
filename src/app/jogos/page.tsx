@@ -127,6 +127,13 @@ export default function GamesIndex() {
       image: "/images/img-memory-game.jpg",
       href: "/jogo-da-memoria",
     },
+     {
+      id: "forca",
+      title: "Forca-Oceanica",
+      subtitle: "EcoFish - O desafio de proteger o fundo do mar",
+      image: "/images/img-memory-game.jpg",
+      href: "/forca-oceanica",
+    },
   ];
 
   return (

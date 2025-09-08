@@ -140,6 +140,30 @@ export default function Blog() {
       a: "https://ibtopografia.com/blog/tecnologia-e-inovacao-na-topografia/drones-subaquaticos/",
       sourceName: "Instituto Brasileiro de Topografia",
     },
+     {
+      title: "Cientistas revelam tecnologia vestível inspirada em estrelas do mar para monitoramento cardíaco",
+      description:
+        "Pesquisadores da Universidade do Missouri criaram um dispositivo vestível inovador, inspirado no formato de uma estrela-do-mar. Com cinco “braços” flexíveis de sensores, ele é capaz de registrar ao mesmo tempo os sinais elétricos (ECG) e mecânicos do coração, garantindo precisão mesmo quando o usuário está em movimento. com apoio da inteligência artificial, o sistema identificou doenças como fibrilação atrial, infarto e insuficiência cardíaca com acerto superior a 90%. O estudo, publicado em abril de 2025 na Science Advances, vem sendo amplamente destacado, apontando para um futuro em que acompanhar a saúde do coração será cada vez mais prático e confiável.",
+      image: "/images/estrela-do-mar-blog.jpg",
+      a: "https://engineering.missouri.edu/2025/scientists-unveil-starfish-inspired-wearable-tech-for-heart-monitoring/?utm_source=chatgpt.com",
+      sourceName: "Universidade de Missouri",
+    },
+    {
+      title: "Da Jubarte às Turbinas: Como a Biologia Marinha Inspira a Energia Eólica",
+      description:
+        "Segundo o perfil institucional do Prof. Frank Fish, na West Chester University (WCU-PA), ele atua como professor de Biologia e desenvolve pesquisas nas áreas de locomção aquática e aplicações biomiméticas — além de ser presidente da WhalePower Corporation, empresa que explora a tecnologia inspirada nos tubérculos das barbatanas de jubarte para turbinas, ventiladores, bombas e compressores. Em sua página de pesquisa na WCU, são mencionados testes com túneis de vento, modelos biomiméticos e diversas aplicações em engenharia (eólicas, ventilação, surfboards, submarinos), evidenciando o potencial prático dessa inovação. E um estudo publicado na revista Integrative and Comparative Biology (2011) comprova que os tubérculos das barbatanas atuam como controle passivo de fluxo, atrasando a estol, aumentando a sustentação e reduzindo o arrasto — com viabilidade para uso em turbinas, ventiladores, aeronaves e embarcações",
+      image: "/images/jubarte-eolica.webp",
+      a: "https://www.wcupa.edu/sciences-mathematics/biology/fFish/research.aspx",
+      sourceName: "West Chester University (WCU)",
+    },
+    {
+      title: "Lagosta-Boxeadora Inspira Materiais Militares Ultra-Resistentes",
+      description:
+        "Embora popularmente chamada de “lagosta-boxeadora”, o crustáceo estudado para o desenvolvimento de materiais resistentes e armaduras militares é na verdade o camarão-louva-a-deus (Odontodactylus scyllarus). Este pequeno predador do Indo-Pacífico é famoso por desferir golpes extremamente rápidos e potentes, além de possuir uma carapaça capaz de suportar enormes impactos. Pesquisadores de universidades renomadas, como a Universidade da Califórnia, Riverside, estudaram a estrutura única de suas patas e carapaça para criar materiais compostos mais leves e resistentes, com aplicações em armaduras, capacetes e outros equipamentos militares. A descrição científica correta evita confusões com a lagosta comum, que não possui essas características extraordinárias.",
+      image: "/images/super_imglagosta_boxeadora.webp",
+      a: "https://www.universityofcalifornia.edu/news/mantis-shrimp-stronger-airplanes?utm_source=chatgpt.com",
+      sourceName: "Universidade da Califirnia, Riverside",
+    },
   ];
 
   return (
