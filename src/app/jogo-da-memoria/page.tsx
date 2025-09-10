@@ -1,6 +1,6 @@
 "use client";
 import * as React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 type Card = {
@@ -40,6 +40,9 @@ export default function MemoryGame() {
   const [specialEffects, setSpecialEffects] = useState<React.ReactNode[]>([]);
   const [showEndScreen, setShowEndScreen] = useState(false);
 
+  // ref para evitar loop de dependência
+  const comboRef = React.useRef(0);
+
   const initializeCards = () => {
     const duplicated: Card[] = labels.flatMap((label) => [
       { label, matched: false, id: Math.random() },
@@ -52,6 +55,7 @@ export default function MemoryGame() {
     setAttempts(0);
     setMatches(0);
     setCombo(0);
+    comboRef.current = 0;
     setShowEndScreen(false);
     setTimeout(() => setShuffling(false), 500);
   };
@@ -66,51 +70,13 @@ export default function MemoryGame() {
     else if (!secondChoice && card !== firstChoice) setSecondChoice(card);
   };
 
-  useEffect(() => {
-    if (firstChoice && secondChoice) {
-      setDisabled(true);
-      setAttempts((prev) => prev + 1);
-      if (firstChoice.label === secondChoice.label) {
-        setCards((prev) =>
-          prev.map((c) =>
-            c.label === firstChoice.label ? { ...c, matched: true } : c
-          )
-        );
-        setMatches((prev) => prev + 1);
-        setCombo((prev) => prev + 1);
-        showFeedback(true);
-        showConfetes();
-        if (combo + 1 > 1) showCombo(combo + 1);
-        setTimeout(() => resetTurn(), 1000);
-      } else {
-        showFeedback(false);
-        setCombo(0);
-        setTimeout(() => resetTurn(), 1000);
-      }
-    }
-  }, [firstChoice, secondChoice]);
-
-  useEffect(() => {
-    if (matches === labels.length) {
-      setTimeout(() => setShowEndScreen(true), 600);
-    }
-  }, [matches]);
-
   const resetTurn = () => {
     setFirstChoice(null);
     setSecondChoice(null);
     setDisabled(false);
   };
 
-  const restartGame = () => {
-    initializeCards();
-  };
-
-  const flipped = (card: Card) =>
-    card === firstChoice || card === secondChoice || card.matched;
-
-  // ------------------ Feedbacks no centro ------------------
-  const showFeedback = (correct: boolean) => {
+  const showFeedback = useCallback((correct: boolean) => {
     const id = Math.random();
     const message = correct ? "Perfeito!" : "Erro!";
     const color = correct ? "#00FF00" : "#FF3333";
@@ -124,9 +90,9 @@ export default function MemoryGame() {
         transition={{ duration: 1, type: "spring", stiffness: 300 }}
         style={{
           position: "fixed",
-          top: "50% !important",
-          left: "50% !important",
-          transform: "translate(-50%, -50%) !important",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
           fontSize,
           color,
           fontWeight: "bold",
@@ -144,9 +110,9 @@ export default function MemoryGame() {
       () => setFeedbacks((prev) => prev.filter((f) => f !== newFeedback)),
       1500
     );
-  };
+  }, []);
 
-  const showConfetes = () => {
+  const showConfetes = useCallback(() => {
     const colors = ["#FF004F", "#00FFEA", "#FFEC00", "#FF00F5", "#00FF4F"];
     const newConfetes: React.ReactNode[] = [];
     for (let i = 0; i < 20; i++) {
@@ -181,42 +147,88 @@ export default function MemoryGame() {
         ),
       2500
     );
+  }, []);
+
+  const showCombo = useCallback(
+    (comboCount: number) => {
+      const id = Math.random();
+      const newCombo = (
+        <motion.div
+          key={id}
+          initial={{ opacity: 0, scale: 0 }}
+          animate={{ opacity: 1, scale: 2 }}
+          exit={{ opacity: 0, scale: 0 }}
+          transition={{ duration: 1, type: "spring", stiffness: 300 }}
+          style={{
+            position: "fixed",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            fontSize: "5rem",
+            color: "#00FFFF",
+            fontWeight: "bold",
+            textShadow: "0 0 15px rgba(0,0,0,0.8)",
+            zIndex: 999,
+            pointerEvents: "none",
+            textAlign: "center",
+          }}
+        >
+          Combo x{comboCount}!
+        </motion.div>
+      );
+      setSpecialEffects((prev) => [...prev, newCombo]);
+      showConfetes();
+      setTimeout(
+        () => setSpecialEffects((prev) => prev.filter((f) => f !== newCombo)),
+        1500
+      );
+    },
+    [showConfetes]
+  );
+
+  // --- lógica de comparação das cartas ---
+  useEffect(() => {
+    if (firstChoice && secondChoice) {
+      setDisabled(true);
+      setAttempts((prev) => prev + 1);
+
+      if (firstChoice.label === secondChoice.label) {
+        setCards((prev) =>
+          prev.map((c) =>
+            c.label === firstChoice.label ? { ...c, matched: true } : c
+          )
+        );
+        setMatches((prev) => prev + 1);
+
+        comboRef.current += 1;
+        setCombo(comboRef.current);
+
+        showFeedback(true);
+        showConfetes();
+        if (comboRef.current > 1) showCombo(comboRef.current);
+
+        setTimeout(() => resetTurn(), 1000);
+      } else {
+        showFeedback(false);
+        comboRef.current = 0;
+        setCombo(0);
+        setTimeout(() => resetTurn(), 1000);
+      }
+    }
+  }, [firstChoice, secondChoice, showFeedback, showConfetes, showCombo]);
+
+  useEffect(() => {
+    if (matches === labels.length) {
+      setTimeout(() => setShowEndScreen(true), 600);
+    }
+  }, [matches]);
+
+  const restartGame = () => {
+    initializeCards();
   };
 
-  const showCombo = (comboCount: number) => {
-    const id = Math.random();
-    const newCombo = (
-      <motion.div
-        key={id}
-        initial={{ opacity: 0, scale: 0 }}
-        animate={{ opacity: 1, scale: 2 }}
-        exit={{ opacity: 0, scale: 0 }}
-        transition={{ duration: 1, type: "spring", stiffness: 300 }}
-        style={{
-          position: "fixed",
-          top: "50% !important",
-          left: "50% !important",
-          transform: "translate(-50%, -50%) !important",
-          fontSize: "5rem",
-          color: "#00FFFF",
-          fontWeight: "bold",
-          textShadow: "0 0 15px rgba(0,0,0,0.8)",
-          zIndex: 999,
-          pointerEvents: "none",
-          textAlign: "center",
-        }}
-      >
-        Combo x{comboCount}!
-      </motion.div>
-    );
-    setSpecialEffects((prev) => [...prev, newCombo]);
-    showConfetes();
-    setTimeout(
-      () => setSpecialEffects((prev) => prev.filter((f) => f !== newCombo)),
-      1500
-    );
-  };
-  // ------------------ Fim Feedbacks ------------------
+  const flipped = (card: Card) =>
+    card === firstChoice || card === secondChoice || card.matched;
 
   return (
     <div className="relative w-full min-h-screen bg-gradient-to-b from-[#050d1c] to-[#0a1a2f] flex flex-col items-center justify-start overflow-hidden p-4">
@@ -244,7 +256,8 @@ export default function MemoryGame() {
             </motion.button>
           </div>
           <div className="text-cyan-300 text-lg md:text-xl mb-4 text-center">
-            Tentativas: {attempts} | Pares: {matches}/{labels.length} | Restantes: {labels.length - matches}
+            Tentativas: {attempts} | Pares: {matches}/{labels.length} | Restantes:{" "}
+            {labels.length - matches}
           </div>
           <div className="grid grid-cols-6 md:grid-cols-6 gap-4 justify-center items-center w-full max-w-[650px]">
             <AnimatePresence>

@@ -76,26 +76,27 @@ export default function ForcaOceania() {
   const nextHint = () => {
     if (hintIndex < currentHints.length - 1) {
       setHintIndex(hintIndex + 1);
-      setWrongAttempts((prev) => prev + 1); // Perde uma tentativa ao usar dica extra
+      setWrongAttempts((prev) => prev + 1); // perde uma tentativa ao usar dica extra
     }
   };
 
-  // Feather Icons via CDN
+  // Feather Icons via CDN (carrega apenas uma vez)
   useEffect(() => {
     if (typeof window !== "undefined") {
       const script = document.createElement("script");
       script.src = "https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js";
       script.onload = () => {
-        // @ts-ignore
+        // @ts-expect-error - feather é injetado globalmente pelo script
         feather.replace();
       };
       document.body.appendChild(script);
     }
-  }, [wrongAttempts]);
+  }, []);
 
   useEffect(() => {
     randomWord();
   }, []);
+
 
   return (
     <>
