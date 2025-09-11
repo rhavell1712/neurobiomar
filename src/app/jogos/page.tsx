@@ -1,17 +1,9 @@
-'use client';
+"use client";
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Header from "../../_components/header/header";
-
-/**
- * Games index page
- * - Header + ParticleBackground + Loading
- * - Cards list (each card links to the game's route)
- *
- * Save as: app/games/page.tsx
- */
 
 function ParticleBackground() {
   const [particles, setParticles] = useState<
@@ -75,13 +67,9 @@ function ParticleBackground() {
   );
 }
 
-
-
-
 export default function GamesIndex() {
   const [loading, setLoading] = useState(true);
   const [progress, setProgress] = useState(0);
-  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     let p = 0;
@@ -95,8 +83,6 @@ export default function GamesIndex() {
     }, 40);
     return () => clearInterval(t);
   }, []);
-
-  const toggleMenu = () => setMenuOpen((s) => !s);
 
   const games = [
     {
@@ -129,9 +115,9 @@ export default function GamesIndex() {
     },
      {
       id: "forca",
-      title: "Forca-Oceanica",
-      subtitle: "EcoFish - O desafio de proteger o fundo do mar",
-      image: "/images/img-memory-game.jpg",
+      title: "Forca-Oceânica",
+      subtitle: "Desafie sua mente com o jogo da forca inspirado no oceano!",
+      image: "/images/capa-forca.png",
       href: "/forca-oceanica",
     },
   ];
@@ -141,7 +127,6 @@ export default function GamesIndex() {
       <ParticleBackground />
       <Header/>
 
-      
       {loading ? (
         <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-[#050d1c] to-[#0a1a2f] px-4">
           <Image
@@ -175,7 +160,6 @@ export default function GamesIndex() {
         </div>
       ) : (
         <>
-          {/* espaço pro header fixo */}
           <div className="h-20" />
 
           <main className="max-w-7xl mx-auto px-6 py-10">
@@ -194,10 +178,10 @@ export default function GamesIndex() {
                       bg-white bg-opacity-5 backdrop-blur-md rounded-xl overflow-hidden
                       border-2 border-cyan-400 shadow-[0_4px_15px_rgba(0,245,212,0.6)]
                       transition-transform transform hover:scale-[1.03] cursor-pointer
-                      h-[280px] flex flex-col
+                      flex flex-col h-[360px] 
                     "
                   >
-                    <div className="relative w-full flex-shrink-0 h-[200px]">
+                    <div className="relative w-full flex-shrink-0 h-[220px]">
                       <Image
                         src={g.image}
                         alt={g.title}
@@ -211,7 +195,7 @@ export default function GamesIndex() {
                       </h3>
                     </div>
                     <div className="p-4 flex flex-col flex-grow justify-between">
-                      <p className="text-sm text-gray-700 mb-4">{g.subtitle}</p>
+                      <p className="text-md text-gray-600 mb-4">{g.subtitle}</p>
                       <div className="flex justify-between items-center">
                         <span className="text-cyan-400 font-semibold">Jogar</span>
                         <span className="text-xs text-gray-400">Clique para abrir</span>

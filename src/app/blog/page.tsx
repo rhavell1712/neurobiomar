@@ -164,6 +164,22 @@ export default function Blog() {
       a: "https://www.universityofcalifornia.edu/news/mantis-shrimp-stronger-airplanes?utm_source=chatgpt.com",
       sourceName: "Universidade da Califirnia, Riverside",
     },
+    {
+      title: "LATAM investe em tecnologia inspirada em tubarões que pode evitar até 6 mil toneladas de emissões",
+      description:
+        "A LATAM Airlines implementou a tecnologia AeroSHARK em seus aviões Boeing 777, uma inovação inspirada nas escamas de tubarão. Essa camada biônica reduz o atrito entre a aeronave e o ar, melhorando a aerodinâmica e diminuindo o consumo de combustível. A iniciativa pode evitar até 6 mil toneladas de CO₂ por ano, contribuindo para a meta da companhia de zerar suas emissões líquidas até 2050. Esse exemplo mostra como a bioinspiração marinha pode gerar soluções práticas e sustentáveis na aviação.",
+      image: "/images/latam-blog.jpg",
+      a: "https://exame.com/esg/latam-investe-em-tecnologia-inspirada-em-tubaroes-que-pode-evitar-ate-6-mil-toneladas-de-emissoes/",
+      sourceName: "ESG (Environmental, Social and Governance)",
+    },
+    {
+      title: "Água-viva robótica: tecnologia inspirada no oceano para limpar detritos marinhos",
+      description:
+        "Pesquisadores do Instituto Max Planck desenvolveram uma água-viva robótica capaz de flutuar no oceano e gerar correntes de água que atraem e capturam detritos, como máscaras e luvas descartadas, sem tocá-los diretamente. Inspirada no movimento natural das águas-vivas, essa tecnologia oferece uma solução sustentável para limpar áreas delicadas, como recifes de corais, sem danificar o ecossistema. É um exemplo de como a bioinspiração marinha pode gerar inovações práticas e ecológicas.",
+      image: "/images/agua-viva2- blog.jpg",
+      a: "https://epocanegocios.globo.com/tecnologia/noticia/2023/04/cientistas-criam-agua-viva-robotica-que-consegue-sugar-detritos-do-oceano-sem-toca-los.ghtml",
+      sourceName: "Instituto Max Planck",
+    },
   ];
 
   return (
@@ -240,7 +256,7 @@ export default function Blog() {
                   {/* Título sobre o degradê */}
                   <h2
                     className="absolute bottom-3 left-3 right-3 text-white text-lg md:text-xl font-bold
-                    drop-shadow-md"
+                    drop-shadow-lg"
                   >
                     {title}
                   </h2>
