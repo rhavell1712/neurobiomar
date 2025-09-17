@@ -88,7 +88,7 @@ export default function GamesIndex() {
     {
       id: "ocean-quiz",
       title: "Quiz: Tecnologias inspiradas no oceano",
-      subtitle: "10 perguntas rápidas sobre descobertas e inovações marinhas",
+      subtitle: "30 perguntas rápidas sobre descobertas e inovações marinhas",
       image: "/images/quiz-logo.png",
       href: "/quiz",
     },
@@ -108,8 +108,8 @@ export default function GamesIndex() {
     },
      {
       id: "jogo-da-memoria",
-      title: "EcoFish",
-      subtitle: "EcoFish - O desafio de proteger o fundo do mar",
+      title: "Memory Game",
+      subtitle: "Jogo Da Memoria - Memorize, explore e conecte-se com os segredos do oceano!",
       image: "/images/img-memory-game.jpg",
       href: "/jogo-da-memoria",
     },

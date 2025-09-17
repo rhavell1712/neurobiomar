@@ -99,13 +99,12 @@ export default function DeepVolt() {
 
   const sections = [
     {
-      title: '🌊 DeepVolt – Energia inspirada pelo oceano',
+      title: '🌊 DeepVolt – Robô Subaquático Autossuficiente',
       content: (
         <>
           <p>
-            O <strong>DeepVolt</strong> é um projeto tecnológico inovador inspirado em animais marinhos. 
-            Ele propõe a criação de um robô subaquático autossuficiente, capaz de gerar e armazenar sua própria energia, 
-            usando princípios da biomimética — ciência que imita a natureza para criar novas tecnologias.
+            O <strong>DeepVolt</strong> é um robô inspirado em animais marinhos, projetado para explorar e monitorar os oceanos de forma autônoma e sustentável.
+            Ele combina princípios da biomimética com tecnologias inovadoras para operar de maneira eficiente e limpa.
           </p>
 
           {/* Vídeo incorporado */}
@@ -123,22 +122,20 @@ export default function DeepVolt() {
       ),
     },
     {
-      title: '🔹 Como o DeepVolt gera energia?',
+      title: '🔹 Como ele gera energia?',
       content: (
         <ul className="list-disc list-inside space-y-2 text-gray-300">
           <li>
-            <strong>⚡ Bioeletricidade Artificial (Enguia e Arraia Elétrica)</strong><br />
-            As enguias e arraias produzem descargas elétricas através de células chamadas eletrócitos. 
-            O DeepVolt usa materiais especiais que imitam esse processo, convertendo íons da água do mar em eletricidade, 
-            armazenada em baterias internas para alimentar motores e sensores.
+            <strong>💧 Células de Combustível a Hidrogênio</strong><br />
+            Convertem hidrogênio e oxigênio da água do mar em eletricidade limpa, permitindo autonomia prolongada mesmo em profundidade.
           </li>
           <li>
-            <strong>🌊 Energia das Correntes Oceânicas (Baleia e Tubarão)</strong><br />
-            Nadadeiras flexíveis captam o movimento da água, transformando-o em energia mecânica e depois em eletricidade, como uma mini turbina.
+            <strong>🌊 Hidrogeradores Integrados</strong><br />
+            Turbinas nas nadadeiras aproveitam o movimento do robô e das correntes oceânicas para gerar energia adicional.
           </li>
           <li>
-            <strong>☀️ Energia Solar (camada externa)</strong><br />
-            Na superfície, “asas solares” retráteis recarregam as baterias com luz do sol, garantindo energia mesmo fora da água.
+            <strong>☀️ Painéis Solares Retráteis</strong><br />
+            Quando na superfície, painéis flexíveis captam a luz solar, recarregando rapidamente as baterias.
           </li>
         </ul>
       ),
@@ -147,8 +144,8 @@ export default function DeepVolt() {
       title: '🔹 Como ele se move?',
       content: (
         <p>
-          Corpo hidrodinâmico inspirado no formato do tubarão, nadadeiras flexíveis como arraias, 
-          e propulsão híbrida combinando energia elétrica gerada e correntes oceânicas.
+          Corpo hidrodinâmico inspirado em tubarões, nadadeiras flexíveis como arraias, 
+          e propulsão híbrida que combina energia das células de hidrogênio e das correntes oceânicas, garantindo movimento eficiente e silencioso.
         </p>
       ),
     },
@@ -156,10 +153,10 @@ export default function DeepVolt() {
       title: '🔹 O que o DeepVolt pode fazer?',
       content: (
         <ul className="list-disc list-inside space-y-2 text-gray-300">
-          <li>✅ Nadar de forma autônoma por longos períodos sem precisar recarga.</li>
-          <li>✅ Coletar dados ambientais (temperatura, salinidade, poluição, correntes).</li>
-          <li>✅ Transmitir informações em tempo real para centros de pesquisa.</li>
-          <li>✅ Formar redes de monitoramento com outros DeepVolts, criando um “enxame inteligente”.</li>
+          <li>✅ Operar autonomamente por longos períodos sem necessidade de recarga externa.</li>
+          <li>✅ Coletar dados ambientais: temperatura, salinidade, poluição, correntes e oxigênio.</li>
+          <li>✅ Formar redes inteligentes com outros DeepVolts, criando um “enxame” de monitoramento.</li>
+          <li>✅ Explorar ecossistemas frágeis sem causar danos.</li>
         </ul>
       ),
     },
@@ -167,9 +164,9 @@ export default function DeepVolt() {
       title: '🔹 Por que o DeepVolt é importante?',
       content: (
         <ul className="list-disc list-inside space-y-2 text-gray-300">
-          <li>🌍 Ajuda no combate às mudanças climáticas monitorando o oceano.</li>
-          <li>🌊 Auxilia na proteção da vida marinha contra poluição e pesca ilegal.</li>
-          <li>⚡ Mostra como criar tecnologias limpas e sustentáveis inspiradas na natureza.</li>
+          <li>🌍 Auxilia no estudo das mudanças climáticas e preservação dos oceanos.</li>
+          <li>♻️ Demonstra como tecnologias limpas podem ser inspiradas na natureza e aplicadas de forma prática.</li>
+          <li>⚡ Proporciona um modelo viável de robô subaquático autossuficiente.</li>
         </ul>
       ),
     },
@@ -177,8 +174,7 @@ export default function DeepVolt() {
       title: '📌 Resumo simples',
       content: (
         <p>
-          O DeepVolt é um robô inspirado em tubarões, baleias e enguias que gera energia de três formas: descargas elétricas, correntes oceânicas e energia solar. 
-          Ele pode se mover sozinho, monitorar os oceanos e trabalhar em rede com outros robôs sem precisar de recarga externa.
+          O DeepVolt é um robô inspirado em tubarões e arraias que gera energia a partir de <strong>células de hidrogênio, turbinas internas e luz solar</strong>, permitindo monitoramento autônomo e sustentável dos oceanos.
         </p>
       ),
     },

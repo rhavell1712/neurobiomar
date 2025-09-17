@@ -152,80 +152,90 @@ export default function Technology() {
 
     {
       title: "🤖 Robótica Subaquática",
-      img: "/images/underwater-robot.jpg",
+      img: "/images/Vehiculo-submarino.webp",
       content: (
         <>
           <p>
-            Inspirada em animais como lulas e peixes, a robótica subaquática
-            busca desenvolver máquinas que imitam movimentos naturais.
+            A vida marinha inspira tecnologias capazes de transformar a forma como 
+            exploramos os oceanos. A robótica subaquática, baseada em animais como lulas e peixes,
+            desenvolve máquinas que imitam movimentos naturais para alcançar maior mobilidade, precisão
+            e eficiência energética.
           </p>
           <p className="mt-2">
-            Isso garante maior mobilidade e eficiência energética, permitindo
-            explorar ambientes de difícil acesso sem danificá-los.
+           Esses robôs podem acessar regiões profundas ou frágeis do oceano sem causar danos,
+           tornando-se ferramentas valiosas para pesquisa, monitoramento ambiental e preservação.
           </p>
           <p className="mt-2 text-cyan-400 font-semibold">
-            Aplicação prática: robôs com tentáculos flexíveis capazes de estudar
-            ecossistemas frágeis sem causar impactos.
+            Aplicação prática: robôs com tentáculos flexíveis,
+            capazes de interagir com ecossistemas delicados sem comprometer sua integridade,
+            oferecendo novas possibilidades para a ciência marinha.
           </p>
         </>
       ),
     },
     {
       title: "💡 Materiais Sustentáveis",
-      img: "/images/coral.jpg",
+      img: "/images/corais.TI.jpeg",
       content: (
         <>
           <p>
-            Pesquisadores se inspiram na estrutura dos corais para criar materiais
-            resistentes e ao mesmo tempo sustentáveis.
+            A natureza tem sido fonte de inspiração para novas soluções na construção civil.
+             Pesquisadores estudam a estrutura dos corais para desenvolver materiais que combinam 
+             alta resistência com baixo impacto ambiental.
           </p>
           <p className="mt-2">
-            Esses materiais podem substituir opções poluentes na construção civil,
-            promovendo durabilidade e respeito ao meio ambiente.
+            Essas inovações buscam substituir opções tradicionais e poluentes, oferecendo alternativas
+            que unem durabilidade, eficiência e sustentabilidade.
           </p>
           <p className="mt-2 text-cyan-400 font-semibold">
-            Aplicação prática: blocos de construção feitos a partir do carbonato
-            de cálcio, mais duráveis e com baixa emissão de carbono.
+            Aplicação prática: blocos de construção produzidos a partir do carbonato de cálcio,
+            um recurso abundante e de baixa emissão de carbono, capazes de reduzir o impacto da 
+            indústria da construção — uma das mais poluentes do planeta. 
           </p>
         </>
       ),
     },
     {
       title: "🔋 Energia Renovável Marinha",
-      img: "/images/marine-energy.jpg",
+      img: "/images/ondas-energia.jpeg",
       content: (
         <>
           <p>
-            Inspirada no movimento das algas e das ondas, essa tecnologia busca
-            transformar a energia do mar em eletricidade limpa.
+           Inspirada nas algas e no movimento das ondas, essa tecnologia transforma
+           a força do oceano em eletricidade limpa e sustentável.
           </p>
           <p className="mt-2">
-            O grande diferencial é a produção constante de energia, já que as
-            correntes marítimas nunca param.
+           O diferencial é a geração contínua de energia,
+           aproveitando correntes e ondas que nunca cessam,
+           tornando-a mais confiável que outras fontes intermitentes.
           </p>
           <p className="mt-2 text-cyan-400 font-semibold">
-            Aplicação prática: dispositivos que convertem o balanço das ondas em
-            energia elétrica renovável.
+           Aplicação prática: dispositivos que captam o balanço das ondas para produzir
+           energia elétrica renovável, contribuindo para a redução
+           de poluentes e a preservação do planeta.
           </p>
         </>
       ),
     },
     {
       title: "🌊 Sensores Ambientais",
-      img: "/images/biosensor.jpg",
+      img: "/images/sensor.jpg",
       content: (
         <>
           <p>
-            Sensores biológicos imitam a sensibilidade de moluscos e outros
-            organismos marinhos para detectar mudanças no ambiente.
+            A natureza serve como modelo para tecnologias que monitoram o oceano de forma precisa
+            e sustentável. Sensores biológicos inspirados em moluscos e outros organismos marinhos
+            captam mudanças no ambiente com alta sensibilidade.
           </p>
           <p className="mt-2">
-            Eles são capazes de identificar toxinas e variações químicas na água
-            em tempo real, ajudando na preservação dos ecossistemas.
+            Esses dispositivos permitem identificar toxinas,
+            poluentes e variações químicas na água em tempo real, 
+            oferecendo informações essenciais para a preservação e
+            recuperação dos ecossistemas.
           </p>
           <p className="mt-2 text-cyan-400 font-semibold">
-            Aplicação prática: biossensores inspirados em mexilhões que detectam
-            poluentes com alta precisão.
+            Aplicação prática: biossensores inspirados em mexilhões capazes de detectar 
+            poluentes com altíssima precisão, alertando rapidamente para riscos ambientais.
           </p>
         </>
       ),
